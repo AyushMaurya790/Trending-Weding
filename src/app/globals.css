@@ -1,8 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+--color-primary: #8752FF;
+  box-sizing: border-box;
+  
 }
 
 @theme inline {
@@ -10,12 +16,14 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffedf9;
+    --foreground: #070606;
+    
   }
 }
 
@@ -23,4 +31,26 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+
+@font-face {
+  font-family: "Kumbh Sans";
+  src: url("/fonts/KumbhSans-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kumbh Sans";
+  src: url("/fonts/KumbhSans-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+.font-montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.font-kumbh-sans {
+  font-family: 'Kumbh Sans', sans-serif;
 }
