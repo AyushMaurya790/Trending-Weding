@@ -6,34 +6,26 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
---color-primary: #8752FF;
+  --color-primary: #ad009e;
   box-sizing: border-box;
-  
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--color-primary);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #ffedf9;
-    --foreground: #070606;
-    
-  }
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
-
+/* Custom Fonts */
 @font-face {
   font-family: "Kumbh Sans";
   src: url("/fonts/KumbhSans-Regular.woff2") format("woff2");
@@ -47,6 +39,7 @@ body {
   font-weight: 500;
   font-style: normal;
 }
+
 .font-montserrat {
   font-family: 'Montserrat', sans-serif;
 }
