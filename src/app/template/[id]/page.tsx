@@ -70,7 +70,7 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
 
       if (res.ok) {
         const options = {
-          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
+          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
           amount: order.amount,
           currency: order.currency,
           name: 'ShaadiCard.in',
@@ -115,16 +115,14 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
     }
   };
 
-  // Automatically trigger buy if 'action=buy' is in URL
   if (searchParams.get('action') === 'buy' && status !== 'loading') {
     handleBuyNow();
-    router.replace(`/template/${id}`); // Clean up URL
+    router.replace(`/template/${id}`);
   }
 
   if (!template) {
     return <div className="text-center py-10">Template not found.</div>;
   }
-
   return (
     <AnimationWrapper>
       <div className="container mx-auto px-4 py-8">

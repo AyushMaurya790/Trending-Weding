@@ -1,51 +1,80 @@
-// This file will contain the NextAuth configuration.
-// It handles authentication routes for login, logout, etc.
-import NextAuth, { type NextAuthOptions } from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { JWT } from 'next-auth/jwt';
-import { Session } from 'next-auth';
+import NextAuth, { type NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
+import connectDB from "@/lib/dbConnect";
+import User from "@/models/User";
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
+
       credentials: {
-        email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' },
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: Record<string, string> | undefined, req) {
-        // Add logic here to look up the user from the credentials supplied
-        // For now, we'll return a dummy user
-        if (credentials?.email === 'test@example.com' && credentials?.password === 'password') {
-          return { id: '1', name: 'Test User', email: 'test@example.com' };
+
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials.password) {
+          throw new Error("Email & Password required");
         }
-        return null;
+
+        await connectDB();
+
+        // Find user in DB
+        const user = await User.findOne({ email: credentials.email });
+
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        if (!user.password) {
+          throw new Error("User password does not exist");
+        }
+
+        if (!credentials.password) {
+          throw new Error("Password missing");
+        }
+
+        const isMatch = await bcrypt.compare(credentials.password, user.password);
+
+        if (!isMatch) {
+          throw new Error("Invalid email or password");
+        }
+
+        return {
+          id: user._id.toString(),
+          name: user.name,
+          email: user.email,
+        };
       },
     }),
   ],
+
   pages: {
-    signIn: '/login',
-    signOut: '/',
-    error: '/login', 
+    signIn: "/login",
   },
+
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
+
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user: any }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
       }
       return token;
     },
-    async session({ session, token }: { session: Session; token: JWT }) {
+
+    async session({ session, token }) {
       session.user.id = token.id;
       return session;
     },
   },
+
   secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };

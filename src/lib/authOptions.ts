@@ -26,7 +26,7 @@ export const authOptions: NextAuthOptions = {
           }
           console.log('User found:', user.email);
 
-          const isMatch = await bcrypt.compare(credentials!.password, user.passwordHash);
+          const isMatch = await bcrypt.compare(credentials!.password, user.password);
           if (!isMatch) {
             console.log('Password mismatch for user:', user.email);
             throw new Error('Invalid credentials');
