@@ -40,7 +40,7 @@ export default function Navbar() {
   const linkClasses = (href:string) => {
     const isActive = pathname.includes(href);
     return `transition-colors cursor-pointer ${
-      isActive ? "text-primary font-semibold" : "text-white hover:text-primary"
+      isActive ? "text-primary font-semibold" : " hover:text-primary"
     }`;
   };
   useEffect(() => {
@@ -95,29 +95,9 @@ export default function Navbar() {
   };
 
   return (
-    // <div className="min-h-screen p-4">
-    //   <div className="flex justify-between items-center mb-8">
-    //     <h1 className="text-3xl font-bold">Wedding Invites</h1>
-    //     <button
-    //       onClick={handleLogout}
-    //       className="bg-linear-to-r from-purple-600 to-pink-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-    //     >
-    //       Logout
-    //     </button>
-    //   </div>
-    // </div>
-     <motion.div
-      className="fixed w-full top-0 left-0 z-50"
-      initial={{ y: 0 }}
-      animate={{ y: showNavbar ? 0 : -150 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-    >
-      <nav
-        className={`font-montserrat relative text-nowrap flex bg-transparent 2xl:py-8 py-5 mx-auto justify-between items-center text-lg lg:text-sm xl:text-base leading-6 gap-4 ${
-          pathname === "/" ? "border-b-2 border-[#8E8E8E]" : ""
-        }`}
-      >
-        <div className="flex items-center container justify-between mx-auto px-4">
+    <div className="relative p-4">
+      <div className="flex justify-between items-center text-white">
+         <div className="flex items-center container justify-between mx-auto px-4">
           <Link href="/" className="flex items-center gap-1.5 cursor-pointer">
             <Image
               src="/logoGroup.webp"
@@ -134,17 +114,8 @@ export default function Navbar() {
             <Link href="/about" className={linkClasses("/about")}>
               About us
             </Link>
-            <Link
-              href="/portfolio/design"
-              className={linkClasses("/portfolio/")}
-            >
-              Portfolio
-            </Link>
-            <Link href="/services/design" className={linkClasses("/services/")}>
-              Services
-            </Link>
-            <Link href="/blog" className={linkClasses("/blog")}>
-              Blogs
+            <Link href="/template" className={linkClasses("/template")}>
+              Template
             </Link>
             <Link href="/contact" className={linkClasses("/contact")}>
               Contact us
@@ -154,9 +125,17 @@ export default function Navbar() {
           <a href="/contact">
             <IndButton variant="primary" onClick={() => {}}>Choose a Template</IndButton>
           </a>
+          <div className="absolute top-0 left-0 w-full h-full bg-[#312f2f59] -z-10" />
         </div>
-        <div className="absolute top-0 left-0 w-full h-full bg-[#312f2f59] -z-10" />
-      </nav>
-    </motion.div>
+        {/* <button
+          onClick={handleLogout}
+          className="bg-linear-to-r from-purple-600 to-pink-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Logout
+        </button> */}
+        
+      </div>
+    </div>
+
   );
 }

@@ -23,7 +23,7 @@ const Button = ({
   onClick,
   ...props 
 }: IndButtonProps) => {
-  const baseClasses = 'px-11 py-3.5 bg-primary rounded-4xl cursor-pointer hover:opacity-90 transition text-white font-montserrat font-medium leading-6 !md:text-lg';
+  const baseClasses = 'px-11 py-3.5 bg-primary rounded-4xl cursor-pointer hover:opacity-90 transition text-white font-montserrat font-medium leading-6 !md:text-lg bg-linear-to-r from-purple-600 to-pink-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline';
   
   const variants = {
     primary: 'bg-primary hover:bg-purple-800 text-white',
