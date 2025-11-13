@@ -1,11 +1,8 @@
 // This page displays a public, read-only view of a customized wedding invite.
 'use client';
-
 import { useState, useEffect } from 'react';
 import AnimationWrapper from '@/components/AnimationWrapper';
 import dbConnect from '@/lib/dbConnect';
-import CustomInvite from '@/models/CustomInvite';
-import Template from '@/models/Template';
 
 interface CustomInviteData {
   _id: string;
@@ -40,14 +37,11 @@ export default function InvitePage({ params }: { params: { slug: string } }) {
   useEffect(() => {
     async function fetchInviteData() {
       try {
-        // In a real application, fetch invite details from API using `slug`
-        // For now, we'll use dummy data and simulate API call
-        await dbConnect(); // Ensure DB connection for server-side rendering (or API route)
-
+        await dbConnect();
         const dummyInvite: CustomInviteData = {
           _id: 'invite123',
           userId: 'user123',
-          templateId: '1', // Corresponds to dummy template ID in page.tsx
+          templateId: '1', 
           customFields: {
             groomName: 'John Doe',
             brideName: 'Jane Smith',
@@ -107,7 +101,6 @@ export default function InvitePage({ params }: { params: { slug: string } }) {
     <AnimationWrapper>
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold text-center mb-8">Your Wedding Invitation</h1>
-       
       </div>
     </AnimationWrapper>
   );

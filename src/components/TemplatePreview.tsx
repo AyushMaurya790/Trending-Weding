@@ -23,10 +23,20 @@ export default function TemplatePreview({ template, formData }: TemplatePreviewP
           <p className="text-3xl font-serif">{formData?.brideName || 'Bride Name'}</p>
           <p className="text-3xl font-serif">& {formData?.groomName || 'Groom Name'}</p>
           <p className="text-lg mt-2">{formData?.date || 'Wedding Date'}</p>
-          <p className="text-md">{formData?.time || 'Wedding Time'}</p>
-          <p className="text-md">{formData?.venue || 'Wedding Venue'}</p>
+          <p className="text-md">{formData?.day || 'Event Day'}</p>
+          <p className="text-md">{formData?.hours || 'Event Hours'}</p>
+          <p className="text-md">{formData?.address || 'Event Venue'}</p>
+          <p className="text-md">{formData?.shlik || 'Shlik'}</p>
+          <p className="text-md">{formData?.eventTitle || 'Event Title'}</p>
+          <p className="text-md">{formData?.groomDetails || 'Groom Details'}</p>
+          <p className="text-md">{formData?.link || 'Link'}</p>
+          <p className="text-md">{formData?.whatsapp || 'WhatsApp Number'}</p>
         </div>
       </div>
+      {/* Displaying image URL and other details if needed */}
+      {/* <div className="mt-4">
+        <p className="text-sm text-gray-600">Image URL: {formData?.imageUrl || 'N/A'}</p>
+      </div> */}
     </div>
   );
 }
