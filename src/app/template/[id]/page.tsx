@@ -1,7 +1,7 @@
 // This page displays details of a specific wedding template, including a demo view and purchase option.
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react';
 import TemplatePreview from '@/components/TemplatePreview';
 import AnimationWrapper from '@/components/AnimationWrapper';
 import { formatCurrency } from '@/lib/utils';
+import InvitationForm from '@/components/InvitationForm'; // Import the new form component
 
 interface TemplateData {
   _id: string;
@@ -48,6 +49,28 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
       ],
     },
     animationSettings: {},
+  };
+
+  // Initialize formData based on the template's fields, but InvitationForm will manage its own state
+  // We still need this for TemplatePreview and potentially for handleBuyNow logic if it relies on these fields
+  const initialFormData = template.jsonData.fields.reduce((acc, field) => {
+    acc[field.name] = ''; // Initialize all fields as empty strings
+    return acc;
+  }, {} as Record<string, string>);
+
+  const [formData, setFormData] = useState<Record<string, string>>(initialFormData);
+
+  useEffect(() => {
+    // Update formData if template changes (e.g., if fetching from API)
+    setFormData(initialFormData);
+  }, [template._id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Renamed to onFormChange to better reflect its purpose when passed to InvitationForm
+  const handleFormChange = (name: string, value: string) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleBuyNow = async () => {
@@ -129,35 +152,39 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
         <h1 className="text-4xl font-bold text-center mb-8">{template.title}</h1>
         <div className="flex flex-col md:flex-row gap-8">
           <div className="md:w-1/2">
-            <Image
-              src={template.imageUrl}
-              alt={template.title}
-              width={600}
-              height={400}
-              className="w-full h-auto rounded-lg shadow-md"
-            />
+            <TemplatePreview template={template} formData={formData} />
           </div>
-          <div className="md:w-1/2">
-            <h2 className="text-2xl font-semibold mb-4">Description</h2>
-            <p className="text-gray-700 mb-6">{template.description}</p>
+          <div className="md:w-1/2 p-6 bg-white rounded-lg shadow-md">
+            <h2 className="text-2xl font-semibold mb-4">Customize Template</h2>
+            {/* Replaced the old form with the new InvitationForm component */}
+            <InvitationForm
+              formData={formData}
+              onFormChange={handleFormChange}
+              // Pass any other necessary props if InvitationForm needs them
+            />
 
-            <div className="mb-6">
-              <span className="text-3xl font-bold text-green-600">{formatCurrency(template.price)}</span>
-            </div>
+            <div className="mt-6">
+              <h2 className="text-2xl font-semibold mb-4">Description</h2>
+              <p className="text-gray-700 mb-6">{template.description}</p>
 
-            <div className="flex gap-4">
-              <button
-                onClick={() => setShowPreview(true)}
-                className="bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition-colors"
-              >
-                Demo View
-              </button>
-              <button
-                onClick={handleBuyNow}
-                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
-              >
-                Buy Now
-              </button>
+              <div className="mb-6">
+                <span className="text-3xl font-bold text-green-600">{formatCurrency(template.price)}</span>
+              </div>
+
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setShowPreview(true)}
+                  className="bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition-colors"
+                >
+                  Demo View
+                </button>
+                <button
+                  onClick={handleBuyNow}
+                  className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
+                >
+                  Buy Now
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -171,7 +198,7 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
               >
                 &times;
               </button>
-              <TemplatePreview template={template} />
+              <TemplatePreview template={template} formData={formData} />
             </div>
           </div>
         )}

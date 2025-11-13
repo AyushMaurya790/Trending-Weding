@@ -7,10 +7,10 @@ interface TemplatePreviewProps {
       fields: Array<{ name: string; label: string; type: string }>;
     };
   };
-  customFields?: Record<string, string>;
+  formData?: Record<string, string>;
 }
 
-export default function TemplatePreview({ template, customFields }: TemplatePreviewProps) {
+export default function TemplatePreview({ template, formData }: TemplatePreviewProps) {
   if (!template) {
     return <div className="text-center py-4">Select a template to preview.</div>;
   }
@@ -22,18 +22,18 @@ export default function TemplatePreview({ template, customFields }: TemplatePrev
         {/* In a real app, this would render the actual animated template */}
         <img src={template.imageUrl} alt={template.title} className="w-full h-full object-cover rounded-md" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-50">
-          <p className="text-3xl font-serif">{customFields?.brideName || 'Bride Name'}</p>
-          <p className="text-3xl font-serif">& {customFields?.groomName || 'Groom Name'}</p>
-          <p className="text-lg mt-2">{customFields?.date || 'Wedding Date'}</p>
-          <p className="text-md">{customFields?.time || 'Wedding Time'}</p>
-          <p className="text-md">{customFields?.venue || 'Wedding Venue'}</p>
+          <p className="text-3xl font-serif">{formData?.brideName || 'Bride Name'}</p>
+          <p className="text-3xl font-serif">& {formData?.groomName || 'Groom Name'}</p>
+          <p className="text-lg mt-2">{formData?.date || 'Wedding Date'}</p>
+          <p className="text-md">{formData?.time || 'Wedding Time'}</p>
+          <p className="text-md">{formData?.venue || 'Wedding Venue'}</p>
         </div>
       </div>
       <div className="mt-4">
         <h3 className="text-xl font-semibold mb-2">Custom Fields:</h3>
         {template.jsonData.fields.map((field) => (
           <p key={field.name} className="text-gray-700">
-            <strong>{field.label}:</strong> {customFields?.[field.name] || `[${field.label}]`}
+            <strong>{field.label}:</strong> {formData?.[field.name] || `[${field.label}]`}
           </p>
         ))}
       </div>

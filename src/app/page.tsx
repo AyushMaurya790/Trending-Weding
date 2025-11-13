@@ -13,7 +13,7 @@ interface TemplateData {
   price: number;
 }
 
-export default async function Home() {
+export default function Home() {
   // In a real application, you would fetch templates from your API
   // For now, we'll use dummy data
   const templates: TemplateData[] = [
