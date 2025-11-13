@@ -142,10 +142,6 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
     handleBuyNow();
     router.replace(`/template/${id}`);
   }
-
-  if (!template) {
-    return <div className="text-center py-10">Template not found.</div>;
-  }
   return (
     <AnimationWrapper>
       <div className="container mx-auto px-4 py-8">

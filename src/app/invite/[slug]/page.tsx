@@ -3,7 +3,6 @@
 
 import { useState, useEffect } from 'react';
 import AnimationWrapper from '@/components/AnimationWrapper';
-import TemplatePreview from '@/components/TemplatePreview';
 import dbConnect from '@/lib/dbConnect';
 import CustomInvite from '@/models/CustomInvite';
 import Template from '@/models/Template';
@@ -108,9 +107,7 @@ export default function InvitePage({ params }: { params: { slug: string } }) {
     <AnimationWrapper>
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold text-center mb-8">Your Wedding Invitation</h1>
-        <div className="max-w-2xl mx-auto">
-          <TemplatePreview template={template} customFields={invite.customFields} />
-        </div>
+       
       </div>
     </AnimationWrapper>
   );
