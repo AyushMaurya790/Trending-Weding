@@ -1,15 +1,12 @@
-// This page displays details of a specific wedding template, including a demo view and purchase option.
-'use client';
 
+'use client';
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Image from 'next/image';
-import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import TemplatePreview from '@/components/TemplatePreview';
 import AnimationWrapper from '@/components/AnimationWrapper';
 import { formatCurrency } from '@/lib/utils';
-import InvitationForm from '@/components/InvitationForm'; // Import the new form component
+import InvitationForm from '@/components/InvitationForm';
 
 interface TemplateData {
   _id: string;
@@ -31,7 +28,6 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
   const { data: session, status } = useSession();
   const [showPreview, setShowPreview] = useState(false);
 
-  // In a real application, fetch template details from API using `id`
   const template: TemplateData = {
     _id: id,
     title: 'Classic Elegance',
@@ -51,21 +47,17 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
     animationSettings: {},
   };
 
-  // Initialize formData based on the template's fields, but InvitationForm will manage its own state
-  // We still need this for TemplatePreview and potentially for handleBuyNow logic if it relies on these fields
   const initialFormData = template.jsonData.fields.reduce((acc, field) => {
-    acc[field.name] = ''; // Initialize all fields as empty strings
+    acc[field.name] = '';
     return acc;
   }, {} as Record<string, string>);
 
   const [formData, setFormData] = useState<Record<string, string>>(initialFormData);
 
   useEffect(() => {
-    // Update formData if template changes (e.g., if fetching from API)
     setFormData(initialFormData);
-  }, [template._id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [template._id]);
 
-  // Renamed to onFormChange to better reflect its purpose when passed to InvitationForm
   const handleFormChange = (name: string, value: string) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -78,8 +70,6 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
       router.push('/login');
       return;
     }
-
-    // Initiate Razorpay payment
     try {
       const res = await fetch('/api/payment/create-order', {
         method: 'POST',
@@ -152,11 +142,9 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
           </div>
           <div className="md:w-1/2 p-6 bg-white rounded-lg shadow-md">
             <h2 className="text-2xl font-semibold mb-4">Customize Template</h2>
-            {/* Replaced the old form with the new InvitationForm component */}
             <InvitationForm
               formData={formData}
               onFormChange={handleFormChange}
-              // Pass any other necessary props if InvitationForm needs them
             />
 
             <div className="mt-6">
