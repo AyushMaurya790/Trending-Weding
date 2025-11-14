@@ -13,12 +13,6 @@ const InvitationForm: React.FC<InvitationFormProps> = ({
     alert("Image upload functionality to be implemented.");
   };
 
-  const handleLinkClick = () => {
-    if (formData.link) {
-      window.open(formData.link, "_blank", "noopener,noreferrer");
-    }
-  };
-
   return (
     <form className="space-y-4 p-6 bg-white shadow-md rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Invitation Details</h2>
@@ -211,7 +205,6 @@ const InvitationForm: React.FC<InvitationFormProps> = ({
           />
         </div>
       </div>
-
       <div>
         <label
           htmlFor="link"
@@ -229,19 +222,7 @@ const InvitationForm: React.FC<InvitationFormProps> = ({
             placeholder="Enter a URL"
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
-          {formData.link && (
-            <button
-              type="button"
-              onClick={handleLinkClick}
-              className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-            >
-              Open Link
-            </button>
-          )}
         </div>
-        <p className="text-xs text-gray-500 mt-1">
-          Clicking 'Open Link' will navigate to the URL.
-        </p>
       </div>
       <label
         htmlFor="whatsapp"

@@ -1,7 +1,7 @@
-// This page allows users to customize their chosen template.
+
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react'; 
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import AnimationWrapper from '@/components/AnimationWrapper';
@@ -29,8 +29,14 @@ export default function EditorPage({ params }: { params: { id: string } }) {
   const [customFields, setCustomFields] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const isMounted = useRef(false);
 
+  const localStorageKey = `templateEditor_${id}`;
+
+  // Effect to load saved data from localStorage on mount
   useEffect(() => {
+    isMounted.current = true; // Set mounted ref to true
+
     if (status === 'loading') return;
 
     if (!session) {
@@ -38,9 +44,22 @@ export default function EditorPage({ params }: { params: { id: string } }) {
       return;
     }
 
-    // In a real application, fetch template details from API using `id`
-    // and check if the user has purchased this template.
-    // For now, we'll use dummy data.
+    // Load saved data from localStorage
+    if (isMounted.current && session) {
+      const savedFields = localStorage.getItem(localStorageKey);
+      if (savedFields) {
+        try {
+          const parsedFields = JSON.parse(savedFields);
+          setCustomFields(parsedFields);
+          console.log('Loaded from localStorage:', parsedFields);
+        } catch (e) {
+          console.error("Failed to parse saved fields from localStorage:", e);
+          localStorage.removeItem(localStorageKey);
+        }
+      }
+    }
+
+    // Dummy template data (replace with actual API fetch in a real app)
     const dummyTemplate: TemplateData = {
       _id: id,
       title: 'Classic Elegance',
@@ -61,11 +80,33 @@ export default function EditorPage({ params }: { params: { id: string } }) {
     };
     setTemplate(dummyTemplate);
     setLoading(false);
-  }, [id, session, status, router]);
 
-  const handleFieldChange = (fieldName: string, value: string) => {
-    setCustomFields((prev) => ({ ...prev, [fieldName]: value }));
-  };
+    // Cleanup function to set isMounted to false
+    return () => {
+      isMounted.current = false;
+    };
+  }, [id, session, status, router, localStorageKey]); // Removed customFields and template from dependencies
+
+  // Effect to save customFields to localStorage whenever they change
+  useEffect(() => {
+    if (isMounted.current && session && template) { // Ensure session and template are available
+      try {
+        localStorage.setItem(localStorageKey, JSON.stringify(customFields));
+        console.log('Saved to localStorage:', customFields);
+      } catch (e) {
+        console.error("Failed to save fields to localStorage:", e);
+      }
+    }
+  }, [customFields, session, template, localStorageKey, isMounted]); // Dependencies for saving
+
+  const handleFieldChange = useCallback((fieldName: string, value: string) => {
+    setCustomFields((prev) => {
+      const newFields = { ...prev, [fieldName]: value };
+      // The saving logic is now handled by the dedicated useEffect above.
+      // We just need to update the state here.
+      return newFields;
+    });
+  }, []); // Empty dependency array as it doesn't depend on external state that changes
 
   const handleSaveInvite = async () => {
     if (!session || !template) return;
@@ -80,8 +121,8 @@ export default function EditorPage({ params }: { params: { id: string } }) {
           userId: session.user.id,
           templateId: template._id,
           customFields,
-          publicUrl: `/invite/${template._id}-${Date.now()}`, // Generate a unique slug
-          isPaid: true, // Assuming payment is already handled
+          publicUrl: `/invite/${template._id}-${Date.now()}`,
+          isPaid: true,
         }),
       });
 
@@ -89,6 +130,11 @@ export default function EditorPage({ params }: { params: { id: string } }) {
 
       if (res.ok) {
         alert('Invite saved successfully! Shareable link: ' + data.publicUrl);
+        // Clear localStorage after successful save to backend
+        if (isMounted.current) {
+          localStorage.removeItem(localStorageKey);
+          console.log('Cleared localStorage after successful save.');
+        }
         router.push(data.publicUrl);
       } else {
         alert(data.message || 'Failed to save invite');
@@ -128,7 +174,7 @@ export default function EditorPage({ params }: { params: { id: string } }) {
           </div>
           <div className="md:w-1/2">
             <h2 className="text-2xl font-semibold mb-4">Live Preview</h2>
-            <TemplatePreview template={template} customFields={customFields} />
+            <TemplatePreview template={template} formData={customFields} />
           </div>
         </div>
       </div>

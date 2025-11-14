@@ -38,7 +38,7 @@ export default function Navbar() {
   }, [lastScrollY]);
 
   const linkClasses = (href:string) => {
-    const isActive = pathname.includes(href);
+    const isActive = pathname === href;
     return `transition-colors cursor-pointer ${
       isActive ? "text-primary font-semibold" : " hover:text-primary"
     }`;
@@ -96,7 +96,7 @@ export default function Navbar() {
 
   return (
     <div className="relative p-4">
-      <div className="flex justify-between items-center text-white">
+      <div className="flex justify-between items-center text-white text-whitenavbar">
          <div className="flex items-center container justify-between mx-auto px-4">
           <Link href="/" className="flex items-center gap-1.5 cursor-pointer">
             <Image
@@ -122,7 +122,7 @@ export default function Navbar() {
             </Link>
           </div>
 
-          <a href="/contact">
+          <a href="/templete">
             <IndButton variant="primary" onClick={() => {}}>Choose a Template</IndButton>
           </a>
           <div className="absolute top-0 left-0 w-full h-full bg-[#312f2f59] -z-10" />

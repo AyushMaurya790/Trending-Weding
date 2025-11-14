@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { uploadImage } from '@/lib/cloudinary'; // Assuming you have a cloudinary utility
+import { uploadImage } from '@/lib/cloudinary';
 
 interface AdminFormProps {
   onSubmit: (newTemplateData: {
@@ -24,8 +24,8 @@ export default function AdminForm({ onSubmit }: AdminFormProps) {
   const [category, setCategory] = useState('');
   const [price, setPrice] = useState('');
   const [imageUrl, setImageUrl] = useState('');
-  const [jsonData, setJsonData] = useState('{}'); // JSON string for fields
-  const [animationSettings, setAnimationSettings] = useState('{}'); // JSON string for settings
+  const [jsonData, setJsonData] = useState('{}');
+  const [animationSettings, setAnimationSettings] = useState('{}');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -35,15 +35,6 @@ export default function AdminForm({ onSubmit }: AdminFormProps) {
       setImageFile(file);
       setUploading(true);
       try {
-        // In a real application, you'd send the file to an API route
-        // which then uploads to Cloudinary. For simplicity, we'll simulate.
-        // const formData = new FormData();
-        // formData.append('file', file);
-        // const res = await fetch('/api/upload-image', { method: 'POST', body: formData });
-        // const data = await res.json();
-        // setImageUrl(data.url); // Assuming API returns the URL
-        
-        // Placeholder for actual Cloudinary upload
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = async () => {
