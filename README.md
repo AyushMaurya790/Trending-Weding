@@ -1,36 +1,150 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Wedding Invitation Platform
+
+A professional, responsive wedding invitation marketplace where users can browse, purchase, and customize beautiful wedding invitation templates.
+
+## Features
+
+- 🎨 **Professional Templates** - Beautiful, responsive wedding invitation designs
+- 🔐 **Secure Authentication** - Login system using NextAuth.js
+- ✏️ **Live Editor** - Real-time preview while editing invitations
+- 💾 **Auto-Save** - Changes automatically saved every 5 seconds
+- 🖼️ **Image Upload** - Cloudinary integration for multiple image uploads
+- 📅 **Event Management** - Add multiple events with dates, locations, and map links
+- 🔗 **Easy Sharing** - Share invitations via WhatsApp and social media
+- ⏱️ **Countdown Timer** - Display days until the wedding
+- 📱 **Fully Responsive** - Perfect on all devices
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Authentication:** NextAuth.js
+- **Database:** MongoDB with Mongoose
+- **Styling:** Tailwind CSS
+- **Animations:** Framer Motion
+- **Image Upload:** Cloudinary
+- **Date Handling:** Day.js
+- **Payment:** Mock Razorpay integration (ready for production)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+ 
+- MongoDB (local or Atlas)
+- Cloudinary account (for image uploads)
+
+### Installation
+
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Setup environment variables**
+   
+   Copy `.env.example` to `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+   
+   Update `.env.local` with your credentials:
+   ```env
+   MONGODB_URI=mongodb://localhost:27017/wedding-invites
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your-super-secret-key-change-this-in-production
+   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your-cloudinary-cloud-name
+   NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your-upload-preset
+   ```
+
+3. **Seed the database** (Optional - creates demo user and sample templates)
+   ```bash
+   node scripts/seed.js
+   ```
+
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open your browser**
+   
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+## Demo Credentials
+
+If you ran the seed script, use these credentials to login:
+
+- **Email:** demo@example.com
+- **Password:** demo123
+
+## Project Structure
+
+```
+web-tem/
+├── public/              # Static assets
+│   └── assets/          # Template images
+├── src/
+│   ├── app/             # Next.js App Router pages
+│   │   ├── about/       # About page
+│   │   ├── api/         # API routes
+│   │   │   ├── auth/    # Authentication
+│   │   │   ├── invites/ # Invite CRUD
+│   │   │   ├── payment/ # Mock payment
+│   │   │   └── templates/ # Template listing
+│   │   ├── contact/     # Contact page
+│   │   ├── editor/      # Template editor
+│   │   ├── invite/      # Public invite view
+│   │   ├── login/       # Login page
+│   │   └── template/    # Template listing & details
+│   ├── components/      # Reusable React components
+│   ├── lib/             # Utility functions & DB connection
+│   ├── models/          # Mongoose models
+│   └── types/           # TypeScript type definitions
+├── scripts/             # Database seed scripts
+└── package.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Key Pages
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Home (`/`)** - Landing page with features and CTA
+- **Templates (`/template`)** - Browse all templates
+- **Template Detail (`/template/[id]`)** - View template demo
+- **Login (`/login`)** - User authentication
+- **Editor (`/editor/[id]`)** - Edit purchased invitation
+- **Public Invite (`/invite/[slug]`)** - Shareable invitation link
+- **About (`/about`)** - Company information
+- **Contact (`/contact`)** - Contact form
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features in Detail
 
-## Learn More
+### Template Editor Fields
 
-To learn more about Next.js, take a look at the following resources:
+- Groom & Bride names
+- Shlok/Quote
+- Family names and details
+- Multiple events with:
+  - Event name
+  - Date (auto-populates weekday)
+  - Location with map link
+- Image gallery (up to 10 images)
+- WhatsApp link
+- Multiple social media links
+- Countdown date
+- 4 extra custom fields
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Payment Flow
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Currently uses mock payment. To integrate Razorpay:
 
-## Deploy on Vercel
+1. Update `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET` in `.env.local`
+2. Modify `/api/payment/mock/route.ts` to call Razorpay API
+3. Add Razorpay checkout UI in `TemplateCard` component
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploy on [Vercel](https://vercel.com) (recommended) or any platform supporting Next.js.
+
+## Support
+
+For support, email info@weddinginvites.com
+
