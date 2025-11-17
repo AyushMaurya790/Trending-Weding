@@ -1,73 +1,29 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import AnimationWrapper from '@/components/AnimationWrapper';
+import Temp from '@/components/temp';
 
-// Mock template data - in production, this would fetch from DB
-const templates = [
-  {
-    _id: '1',
-    title: 'Classic Elegance',
-    description: 'A timeless design for your special day.',
-    imageUrl: '/assets/template-classic.jpg',
-    price: 1999,
-  },
-  {
-    _id: '2',
-    title: 'Modern Minimalist',
-    description: 'Sleek and simple, yet profoundly beautiful.',
-    imageUrl: '/assets/template-modern.jpg',
-    price: 2499,
-  },
-  {
-    _id: '3',
-    title: 'Floral Fantasy',
-    description: 'Embrace the beauty of nature with vibrant florals.',
-    imageUrl: '/assets/template-floral.jpg',
-    price: 2999,
-  },
-  {
-    _id: '4',
-    title: 'Royal Heritage',
-    description: 'Traditional designs with a regal touch.',
-    imageUrl: '/assets/template-royal.jpg',
-    price: 3499,
-  },
-  {
-    _id: '5',
-    title: 'Garden Romance',
-    description: 'Fresh and romantic botanical themes.',
-    imageUrl: '/assets/template-garden.jpg',
-    price: 2799,
-  },
-  {
-    _id: '6',
-    title: 'Vintage Charm',
-    description: 'Nostalgic designs with classic appeal.',
-    imageUrl: '/assets/template-vintage.jpg',
-    price: 2599,
-  },
-];
 
 export default function TemplateDetail({ params }: { params: { id: string } }) {
-  const template = templates.find((t) => t._id === params.id);
+  // const template = templates.find((t) => t._id === params.id);
 
-  if (!template) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold mb-4">Template Not Found</h1>
-          <Link href="/template" className="text-primary hover:underline">
-            ← Back to Templates
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  // if (!template) {
+  //   return (
+  //     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+  //       <div className="text-center">
+  //         <h1 className="text-3xl font-bold mb-4">Template Not Found</h1>
+  //         <Link href="/template" className="text-primary hover:underline">
+  //           ← Back to Templates
+  //         </Link>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <section className="bg-white border-b">
+      <Temp />
+      {/* <section className="bg-white border-b">
         <div className="container mx-auto px-4 py-6">
           <Link href="/template" className="text-primary hover:underline inline-flex items-center">
             <svg
@@ -86,13 +42,11 @@ export default function TemplateDetail({ params }: { params: { id: string } }) {
             Back to Templates
           </Link>
         </div>
-      </section>
+      </section> */}
 
-      {/* Template Preview */}
-      <section className="container mx-auto px-4 py-12">
+      {/* <section className="container mx-auto px-4 py-12">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Preview Image */}
             <AnimationWrapper>
               <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                 <div className="relative h-[600px]">
@@ -106,7 +60,6 @@ export default function TemplateDetail({ params }: { params: { id: string } }) {
               </div>
             </AnimationWrapper>
 
-            {/* Details */}
             <AnimationWrapper delay={0.2}>
               <div>
                 <h1 className="text-4xl font-bold mb-4">{template.title}</h1>
@@ -218,7 +171,7 @@ export default function TemplateDetail({ params }: { params: { id: string } }) {
             </AnimationWrapper>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

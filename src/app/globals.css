@@ -47,3 +47,11 @@ body {
 .font-kumbh-sans {
   font-family: 'Kumbh Sans', sans-serif;
 }
+
+
+.curved-edge {
+  --c: 400px;
+  mask: radial-gradient(60% var(--c) at bottom, #0000 calc(100% - 2px), #000);
+  -webkit-mask: radial-gradient(60% var(--c) at bottom, #0000 calc(100% - 2px), #000);
+  display: block;
+}

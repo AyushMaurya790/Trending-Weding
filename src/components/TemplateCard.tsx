@@ -23,8 +23,6 @@ export default function TemplateCard({ template }: TemplateCardProps) {
       router.push('/login');
       return;
     }
-
-    // Mock payment - simulate successful payment
     try {
       const response = await fetch('/api/payment/mock', {
         method: 'POST',
@@ -38,7 +36,6 @@ export default function TemplateCard({ template }: TemplateCardProps) {
 
       if (response.ok) {
         const data = await response.json();
-        // Redirect to editor after successful payment
         router.push(`/editor/${data.inviteId}`);
       }
     } catch (error) {
