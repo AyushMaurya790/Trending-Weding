@@ -10,26 +10,26 @@ const InviteSection = () => {
       <img
         src="/assets/inviteSectionBg.png"
         alt="wedding-photo"
-        className="object-cover h-556"
+        className="object-cover md:h-556 h-200"
       />
       <img
         src="/assets/HeaderImg.png"
         alt="wedding-photo"
-        className="object-cover absolute -top-10 mx-auto w-full"
+        className="object-cover absolute md:-top-10 -top-2 mx-auto w-full"
       />
       <p
         className="
-        font-Jacques-plain text-[26px] leading-[150%] absolute top-10 left-1/2 -translate-x-1/2 text-center text-[#BD8C1C]"
+        font-Jacques-plain md:text-[26px] text-sm leading-[150%] absolute md:top-10 top-3 left-1/2 -translate-x-1/2 text-center text-[#BD8C1C]"
       >
         ॐ श्री गणेशाय नम
       </p>
       <SvgIcon
         name="LordGanesh"
-        className="w-41 h-53 absolute top-20 left-1/2 -translate-x-1/2"
+        className="md:w-41 md:h-53 w-20 h-20 absolute md:top-20 top-10 left-1/2 -translate-x-1/2"
       />
       <p
         className="
-        font-Jacques-plain  text-[42px] leading-[150%] absolute top-3/18 left-1/2 -translate-x-1/2 text-center "
+        font-Jacques-plain  text-sm md:text-[42px] leading-[150%] absolute top-3/18 md:top-3/18 left-1/2 -translate-x-1/2 w-full text-center "
       >
         With the heavenly blessings of <br />
         Smt. Lata Devi & Sm. Kamal Kapoor <br /> and <br />
@@ -37,28 +37,28 @@ const InviteSection = () => {
       </p>
       <p
         className="
-        font-Jacques-plain text-8xl leading-[150%] absolute top-6/20 left-1/2 -translate-x-1/2 text-center text-[#BD8C1C]"
+        font-Jacques-plain md:text-8xl text-4xl leading-[150%] absolute top-6/20 md:top-6/20 left-1/2 -translate-x-1/2 text-center text-[#BD8C1C]"
       >
         WE <br /> INVITE
       </p>
       <div
         className="
-        font-Jacques-plain text-[42px] leading-[150%] absolute top-8/18 left-1/2 -translate-x-1/2 text-center "
+        font-Jacques-plain text-sm md:text-[42px] leading-[150%] absolute top-9/20 md:top-8/18 left-1/2 -translate-x-1/2 text-center w-full"
       >
         You to join us in the wedding celebrations of <br />
-        <p className="mt-8">
+        <p className="md:mt-8 mt-4">
           Daughter of <br />
         Mrs. Reena & Mr. Rajiv Kapoor  
         </p>
         
       </div>
       <p
-        className="font-Parisienne text-[42px] leading-[150%] text-center absolute top-11/18 left-2/8 -translate-x-1/2"
+        className="font-Parisienne text-sm md:text-[42px] leading-[150%] text-center absolute top-12/18 md:top-11/18 left-1/8 md:left-2/8 -translate-x-1/2"
       >
         Abhishek <br /> & <br /> Anjali
       </p>
       <p
-        className="font-Jacques-plain text-[42px] leading-[150%] text-center absolute top-11/18 left-6/8 -translate-x-1/2"
+        className="font-Jacques-plain text-sm md:text-[42px] leading-[150%] text-center absolute top-12/18 md:top-11/18  left-6/8 -translate-x-1/2 w-full"
       >
        Saturday, 21 June 2035 <br /> 123 Anywhere St., City, <br /> ST 12345
       </p>

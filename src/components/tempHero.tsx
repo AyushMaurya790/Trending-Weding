@@ -15,14 +15,14 @@ interface IconConfig {
 const ICON_CONFIG: IconConfig[] = [
   {
     name: "FlowerYellow",
-    wrapperClass: "absolute md:top-0 top-5 md:left-24 left-10 z-10",
+    wrapperClass: "absolute md:top-10 top-5 md:left-24 left-10 z-10",
     iconClass: "md:w-40 w-10 h-10 md:h-37",
     animation: "floatMedium",
     delay: 0.15,
   },
   {
     name: "BigLeave",
-    wrapperClass: "absolute md:-top-40 -top-5 md:-right-2 -right-5 z-10",
+    wrapperClass: "absolute md:-top-35 -top-5 md:-right-2 -right-5 z-10",
     iconClass: "md:w-90 w-20 h-30 md:h-120",
     animation: "sway",
     delay: 0.25,
