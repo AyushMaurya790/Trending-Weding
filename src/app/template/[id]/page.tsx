@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import AnimationWrapper from '@/components/AnimationWrapper';
-import Temp from '@/components/temp';
+import TempHero from '@/components/tempHero';
 
 
 export default function TemplateDetail({ params }: { params: { id: string } }) {
@@ -22,7 +22,7 @@ export default function TemplateDetail({ params }: { params: { id: string } }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Temp />
+      <TempHero/>
       {/* <section className="bg-white border-b">
         <div className="container mx-auto px-4 py-6">
           <Link href="/template" className="text-primary hover:underline inline-flex items-center">
