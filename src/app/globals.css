@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Jacques+Francois+Shadow&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Parisienne&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -42,8 +43,14 @@ body {
   font-style: normal;
 }
 
+.font-Parisienne {
+  font-family: 'Parisienne', serif;
+}
 .font-Jacques {
   font-family: 'Jacques Francois Shadow', serif;
+}
+.font-Jacques-plain {
+  font-family: 'Jacques Francois', serif;
 }
 .font-montserrat {
   font-family: 'Montserrat', sans-serif;
