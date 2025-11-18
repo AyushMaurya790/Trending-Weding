@@ -1,7 +1,5 @@
 "use client";
-
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import SvgIcon from "./SvgIcon";
 
 type IconAnimation = "floatSlow" | "floatMedium" | "sway" | "pulse" |"none";
@@ -17,64 +15,64 @@ interface IconConfig {
 const ICON_CONFIG: IconConfig[] = [
   {
     name: "FlowerYellow",
-    wrapperClass: "absolute top-0 left-24 z-10",
-    iconClass: "w-40 h-37",
+    wrapperClass: "absolute md:top-0 top-5 md:left-24 left-10 z-10",
+    iconClass: "md:w-40 w-10 h-10 md:h-37",
     animation: "floatMedium",
     delay: 0.15,
   },
   {
     name: "BigLeave",
-    wrapperClass: "absolute -top-40 -right-2 z-10",
-    iconClass: "w-90 h-120",
+    wrapperClass: "absolute md:-top-40 -top-5 md:-right-2 -right-5 z-10",
+    iconClass: "md:w-90 w-20 h-30 md:h-120",
     animation: "sway",
     delay: 0.25,
   },
   {
     name: "SmallLeave",
-    wrapperClass: "absolute top-30 left-101 z-10",
-    iconClass: "w-28 h-32",
-    animation: "floatSlow",
+    wrapperClass: "absolute md:top-30 md:left-101 top-15 left-20 z-10",
+    iconClass: "md:w-28 w-10 h-12 md:h-32",
+    animation: "sway",
     delay: 0.35,
   },
   {
     name: "SmallLeave",
-    wrapperClass: "absolute top-[45%] right-101 z-10",
-    iconClass: "w-28 h-32",
-    animation: "floatSlow",
+    wrapperClass: "absolute md:top-[45%] top-[50%] md:right-101 right-20 z-10",
+    iconClass: "md:w-28 w-10 h-12 md:h-32",
+    animation: "sway",
     delay: 0.6,
   },
   {
     name: "CompleteLeave",
-    wrapperClass: "absolute bottom-0 -left-10 z-10",
-    iconClass: "w-107 h-113",
-    animation: "floatMedium",
+    wrapperClass: "absolute  -bottom-4 md:-left-10 left-0 z-10",
+    iconClass: "md:w-107 w-20 h-30 md:h-113",
+    animation: "none",
     delay: 0.4,
   },
   {
     name: "CompleteLeave2",
     wrapperClass: "absolute bottom-0 right-0 z-10",
-    iconClass: "w-100 h-106",
-    animation: "floatMedium",
+    iconClass: "md:w-100 w-20 h-30 md:h-106",
+    animation: "none",
     delay: 0.55,
   },
   {
     name: "RoseImg",
     wrapperClass: "absolute top-3/16 left-0 z-10",
-    iconClass: "w-179 h-293",
+    iconClass: "md:w-179 w-40 h-60 md:h-293",
     animation: "sway",
     delay: 0.5,
   },
   {
     name: "RoseImg1",
-    wrapperClass: "absolute top-10/16 right-0 z-10",
-    iconClass: "w-132 h-213",
+    wrapperClass: "absolute md:top-10/16 top-8/16 md:right-0 -right-8 z-10",
+    iconClass: "md:w-132 w-40 h-60 md:h-213",
     animation: "sway",
     delay: 0.65,
   },
   {
     name: "Desginer",
     wrapperClass: "absolute left-1/2 bottom-0 -translate-x-1/2 z-20",
-    iconClass: "h-350",
+    iconClass: "md:h-350 h-80 ",
     animation: "none",
     delay:0,
   },
@@ -83,7 +81,13 @@ const ICON_CONFIG: IconConfig[] = [
 const EASE_SOFT_OUT = [0.16, 1, 0.3, 1] as const;
 const EASE_FLOAT = [0.445, 0.05, 0.55, 0.95] as const;
 const EASE_SWAY = [0.25, 0.1, 0.25, 1] as const;
+const getResponsiveY = () => {
+  const w = typeof window !== "undefined" ? window.innerWidth : 1200;
 
+  if (w < 640) return [0, -15, 0]; 
+  if (w < 1024) return [0, -20, 0];  
+  return [0, -30, 0];                 
+};
 const getIconAnimation = (type: IconAnimation, delay = 0) => {
   switch (type) {
     case "floatSlow":
@@ -99,7 +103,7 @@ const getIconAnimation = (type: IconAnimation, delay = 0) => {
       };
     case "floatMedium":
       return {
-        y: [0, -30, 0],
+         y: getResponsiveY(),
         scale: [1, 1.06, 1],
         transition: {
           duration: 7,
@@ -204,7 +208,7 @@ const TempHero = () => {
         ))}
 
         <motion.h1
-          className="font-Jacques font-normal text-[216px] leading-[90%] tracking-[0px] text-[#53602B]
+          className="font-Jacques font-normal md:text-[216px] text-5xl leading-[90%] tracking-[0px] text-[#53602B]
                text-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
           initial={{ opacity: 0, y: 40, scale: 0.95 }}
           animate={{
@@ -214,7 +218,7 @@ const TempHero = () => {
             transition: { duration: 1.1, delay: 0.4, ease: EASE_SOFT_OUT },
           }}
         >
-          Abhishek <span className="opacity-55"> Weds</span> Kanika
+          Abhishek <span className="opacity-55 leading-6"><br /> Weds</span><br />  Kanika
         </motion.h1>
       </motion.div>
     </section>

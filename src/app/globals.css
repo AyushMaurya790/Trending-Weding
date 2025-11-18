@@ -62,8 +62,25 @@ body {
 
 
 .curved-edge {
-  --c: 400px;
+  --c: 120px; 
   mask: radial-gradient(60% var(--c) at bottom, #0000 calc(100% - 2px), #000);
   -webkit-mask: radial-gradient(60% var(--c) at bottom, #0000 calc(100% - 2px), #000);
-  display: block;
+}
+
+@media (min-width: 640px) {
+  .curved-edge {
+    --c: 180px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .curved-edge {
+    --c: 250px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .curved-edge {
+    --c: 300px;
+  }
 }
