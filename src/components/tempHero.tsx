@@ -43,19 +43,19 @@ const tempHero = () => {
         </h1>
         <SvgIcon
           name="CompleteLeave"
-          className="w-100 absolute bottom-0 left-0 z-10"
+          className="w-107 h-113 absolute bottom-0 -left-10 z-10"
         />
         <SvgIcon
           name="CompleteLeave2"
-          className="w-100 absolute bottom-0 right-0 z-10"
+          className="w-100 h-106 absolute bottom-0 right-0 z-10"
         />
         <SvgIcon
           name="RoseImg"
-          className="w-120 absolute top-4/16 left-0 z-10"
+          className="w-179 h-293 absolute top-3/16 left-0 z-10"
         />
         <SvgIcon
           name="RoseImg1"
-          className="w-120 absolute top-7/16 right-0 z-10"
+          className="w-132 h-213 absolute top-10/16 right-0 z-10"
         />
         <SvgIcon
           name="Desginer"
