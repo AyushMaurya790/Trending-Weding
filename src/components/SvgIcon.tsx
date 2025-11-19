@@ -5825,12 +5825,14 @@ const icons: Record<string, React.FC<React.SVGProps<SVGSVGElement>>> = {
 <path d="M150.789 120.712L149.229 120.514C150.238 112.537 144.938 108.334 144.711 108.159L145.67 106.911C145.926 107.107 151.915 111.812 150.789 120.712Z" fill="#E3B352"/>
 </svg>
 
+),
+Location:(props)=>(
+  <svg {...props} viewBox="0 0 71 71" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="35.5" cy="35.5" r="19.5" stroke="#BD8C1C" stroke-width="6"/>
+<circle cx="35.5" cy="35.5" r="35" stroke="#BD8C1C"/>
+</svg>
 )
 };
-
-
-
-
 
  const SvgIcon: React.FC<SvgIconProps> = ({name,className = "w-6 h-6",})=>{
  const IconComponent = icons[name];

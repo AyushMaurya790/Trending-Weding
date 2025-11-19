@@ -22,7 +22,7 @@ export default function TemplateDetail({ params }: { params: { id: string } }) {
   // }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 overflow-hidden">
       <TempHero/>
       <InviteSection/>
       <EventShow/>
