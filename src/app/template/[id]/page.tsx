@@ -3,6 +3,7 @@ import Link from 'next/link';
 import AnimationWrapper from '@/components/AnimationWrapper';
 import TempHero from '@/components/tempHero';
 import InviteSection from '@/components/inviteSection';
+import EventShow from '@/components/EventShow';
 
 export default function TemplateDetail({ params }: { params: { id: string } }) {
   // const template = templates.find((t) => t._id === params.id);
@@ -24,6 +25,7 @@ export default function TemplateDetail({ params }: { params: { id: string } }) {
     <div className="min-h-screen bg-gray-50">
       <TempHero/>
       <InviteSection/>
+      <EventShow/>
       {/* <section className="bg-white border-b">
         <div className="container mx-auto px-4 py-6">
           <Link href="/template" className="text-primary hover:underline inline-flex items-center">
