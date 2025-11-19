@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { motion } from "framer-motion";
 import SvgIcon from "./SvgIcon";
@@ -56,6 +56,7 @@ const events = [
     img: "/assets/img/event/reception.png",
   },
 ];
+
 const EventShow = () => {
   return (
     <section className="w-full relative text-[#7A5192] h-full overflow-hidden">
@@ -80,7 +81,7 @@ const EventShow = () => {
           repeatDelay: 0,
         }}
       />
-      
+
       {[...Array(6)].map((_, i) => (
         <motion.div
           key={`bird-heart-${i}`}
@@ -113,8 +114,8 @@ const EventShow = () => {
 
       <div className="absolute  font-Jacques-plain  left-3/6 -translate-x-1/2 md:top-[620px] top-30 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-20 gap-5 place-items-center">
         {events.map((ev, index) => (
-          <motion.section 
-            key={ev.id} 
+          <motion.section
+            key={ev.id}
             className="text-center"
             whileHover={{
               scale: 1.08,
@@ -122,9 +123,9 @@ const EventShow = () => {
               transition: { duration: 0.4, ease: EASE_SOFT_OUT },
             }}
           >
-            <motion.img 
-              src={ev.img} 
-              alt={ev.title} 
+            <motion.img
+              src={ev.img}
+              alt={ev.title}
               className="w-84 object-contain"
               animate={{
                 y: [0, -8, 0],
@@ -136,9 +137,7 @@ const EventShow = () => {
                 repeatDelay: 0,
               }}
             />
-            <h4 className="md:text-[42px] text-xl md:mt-4 mt-0">
-              {ev.title}
-            </h4>
+            <h4 className="md:text-[42px] text-xl md:mt-4 mt-0">{ev.title}</h4>
             <div className="md:text-xl text-sm leading-[120%] mt-2">
               {ev.date} <br />
               {ev.venue} <br />
@@ -147,28 +146,28 @@ const EventShow = () => {
           </motion.section>
         ))}
       </div>
-        <p className="font-Jacques-plain md:text-5xl text-xl text-[#BD8C1C] text-center absolute left-1/2 -translate-x-1/2 md:top-12/18 top-17/20">
-          See the <br /> route <br />
-          <span className="md:text-2xl text-xs">Click to open the map</span>
-          <br />
-        </p>
-          <motion.a 
-            href="#" 
-            className="absolute  left-1/2 -translate-x-1/2 md:top-13/18 mt-10 top-500"
-            animate={{
-              y: [0, -15, 0],
-              scale: [1, 1.1, 1],
-            }}
-            transition={{
-              duration: 1.5,
-              ease: EASE_BOUNCE,
-              repeat: Infinity,
-              repeatDelay: 0,
-            }}
-          >
-            <SvgIcon name="Location" className="w-15 h-10 md:w-18 md:h-18"/>
-          </motion.a>
-       <motion.img
+      <p className="font-Jacques-plain md:text-5xl text-xl text-[#BD8C1C] text-center absolute left-1/2 -translate-x-1/2 md:top-12/18 top-17/20">
+        See the <br /> route <br />
+        <span className="md:text-2xl text-xs">Click to open the map</span>
+        <br />
+      </p>
+      <motion.a
+        href="#"
+        className="absolute  left-1/2 -translate-x-1/2 md:top-13/18 mt-10 top-500"
+        animate={{
+          y: [0, -15, 0],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          duration: 1.5,
+          ease: EASE_BOUNCE,
+          repeat: Infinity,
+          repeatDelay: 0,
+        }}
+      >
+        <SvgIcon name="Location" className="w-15 h-10 md:w-18 md:h-18" />
+      </motion.a>
+      <motion.img
         src="/assets/img/event/fountainleft.png"
         alt="fountain"
         className="absolute -bottom-3 left-0 w-40 md:w-xl md:h-206"
@@ -180,7 +179,10 @@ const EventShow = () => {
           style={{
             left: `${5 + (i % 8) * 20}px`,
             bottom: `${60 + (i % 6) * 50}px`,
-            background: i % 2 === 0 ? 'rgba(147, 197, 253, 0.8)' : 'rgba(191, 219, 254, 0.9)',
+            background:
+              i % 2 === 0
+                ? "rgba(147, 197, 253, 0.8)"
+                : "rgba(191, 219, 254, 0.9)",
           }}
           animate={{
             y: [-50, -150, -100, 0],
@@ -197,8 +199,8 @@ const EventShow = () => {
           }}
         />
       ))}
-      
-       <motion.img
+
+      <motion.img
         src="/assets/img/event/fountainright.png"
         alt="fountain"
         className="absolute -bottom-3 right-0 w-40 md:w-xl md:h-115"
@@ -210,7 +212,10 @@ const EventShow = () => {
           style={{
             right: `${5 + (i % 8) * 50}px`,
             bottom: `${40 + (i % 6) * 50}px`,
-            background: i % 2 === 0 ? 'rgba(147, 197, 253, 0.8)' : 'rgba(191, 219, 254, 0.9)',
+            background:
+              i % 2 === 0
+                ? "rgba(147, 197, 253, 0.8)"
+                : "rgba(191, 219, 254, 0.9)",
           }}
           animate={{
             y: [-40, -130, -80, 0],
@@ -227,7 +232,7 @@ const EventShow = () => {
           }}
         />
       ))}
-       <motion.img
+      <motion.img
         src="/assets/img/event/horse.png"
         alt="wedding-photo"
         className="object-cover absolute md:-bottom-10 -bottom-5 left-1/2 -translate-x-1/2 md:h-132 h-40 z-100"
@@ -243,29 +248,39 @@ const EventShow = () => {
           repeatDelay: 0,
         }}
       />
-      {[...Array(12)].map((_, i) => (
-        <motion.div
-          key={`dust-${i}`}
-          className="absolute md:bottom-8 -bottom-4 w-4 h-4 md:w-6 md:h-6 rounded-full pointer-events-none z-90"
-          style={{
-            left: `calc(50% - ${30 + i * 15}px)`,
-            background: `rgba(251, 191, 36, ${0.3 + (i % 3) * 0.1})`,
-          }}
-          animate={{
-            x: [-5, -30, -50],
-            y: [0, -15, -5, 5],
-            opacity: [0.6, 0.4, 0.2, 0],
-            scale: [0.8, 1.5, 2, 0.5],
-          }}
-          transition={{
-            duration: 1.5,
-            delay: i * 0.08,
-            ease: EASE_SOFT_OUT,
-            repeat: Infinity,
-            repeatDelay: 0,
-          }}
-        />
-      ))}
+      {[...Array(60)].map((_, i) => {
+        const randomLeft = Math.random() * 300 - 150;
+         const randomSize = Math.random() * 10 + 6; 
+        const randomOpacity = Math.random() * 0.5 + 0.2;
+        const randomDuration = Math.random() * 1 + 1.2;
+        const randomDelay = Math.random() * 0.5;
+
+        return (
+          <motion.div
+            key={`dust-${i}`}
+            className="absolute bottom-0 rounded-full pointer-events-none"
+            style={{
+              width: randomSize,
+              height: randomSize,
+              left: `calc(50% + ${randomLeft}px)`,
+              background: `rgba(251, 191, 36, ${randomOpacity})`,
+              filter: "blur(1px)",
+            }}
+            animate={{
+              x: [0, -20 + Math.random() * -40, -10],
+              y: [0, -40 - Math.random() * 20, 10],
+              opacity: [randomOpacity, 0.2, 0],
+              scale: [0.5, 1.5 + Math.random(), 0.4],
+            }}
+            transition={{
+              duration: randomDuration,
+              delay: randomDelay,
+              ease: "easeOut",
+              repeat: Infinity,
+            }}
+          />
+        );
+      })}
     </section>
   );
 };
