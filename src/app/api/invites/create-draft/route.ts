@@ -111,12 +111,12 @@ export async function POST(req: NextRequest) {
         },
       ],
     });
-
+    
     return NextResponse.json(invite);
   } catch (error) {
-    console.error('Error creating draft invite:', error);
+    console.error('[POST /api/invites/create-draft] Error:', error);
     return NextResponse.json(
-      { error: 'Failed to create draft invite' },
+      { error: 'Failed to create draft invite', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

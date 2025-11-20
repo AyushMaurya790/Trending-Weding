@@ -129,7 +129,6 @@ const InviteSchema = new Schema<IInvite>(
       default: '123 Anywhere St., City, ST 12345',
     },
     
-    // Legacy fields
     groomName: {
       type: String,
       default: '',

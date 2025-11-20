@@ -141,13 +141,13 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
           coupleName2: data.coupleName2 || 'Anjali',
           weddingDate: data.weddingDate || 'Saturday, 21 June 2035',
           weddingVenue: data.weddingVenue || '123 Anywhere St., City, ST 12345',
-          events: data.events.length > 0 ? data.events : [],
+          events: data.events?.length > 0 ? data.events : [],
           eventsSectionTitle: data.eventsSectionTitle || 'On the following events',
           mapSectionText: data.mapSectionText || 'See the route',
           mapClickText: data.mapClickText || 'Click to open the map',
           images: data.images || [],
           whatsappLink: data.whatsappLink || '',
-          socialLinks: data.socialLinks.length > 0 ? data.socialLinks : [{ platform: '', url: '' }],
+          socialLinks: data.socialLinks?.length > 0 ? data.socialLinks : [{ platform: '', url: '' }],
           counterDate: data.counterDate || '',
           extraField1: data.extraField1 || '',
           extraField2: data.extraField2 || '',
@@ -156,10 +156,13 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
           slug: data.slug || '',
         });
       } else {
-        router.push('/template');
+        const errorData = await response.json();
+        console.error('Fetch failed with status:', response.status, errorData);
+        alert(`Failed to load invite: ${errorData.error || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Error fetching invite:', error);
+      alert('Network error while fetching invite. Check console.');
     } finally {
       setLoading(false);
     }
