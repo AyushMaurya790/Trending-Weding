@@ -5828,7 +5828,7 @@ const icons: Record<string, React.FC<React.SVGProps<SVGSVGElement>>> = {
 ),
 Location:(props)=>(
   <svg {...props} viewBox="0 0 71 71" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="35.5" cy="35.5" r="19.5" stroke="#BD8C1C" stroke-width="6"/>
+<circle cx="35.5" cy="35.5" r="19.5" stroke="#BD8C1C" strokeWidth="6"/>
 <circle cx="35.5" cy="35.5" r="35" stroke="#BD8C1C"/>
 </svg>
 )

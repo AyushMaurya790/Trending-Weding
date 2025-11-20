@@ -20,7 +20,7 @@ export default function RootLayout({
         <SessionProviderWrapper>
           {/* <Navbar /> */}
           <main className="grow">{children}</main>
-          <Footer />
+          {/* <Footer /> */}
         </SessionProviderWrapper>
       </body>
     </html>

@@ -1,8 +1,24 @@
 "use client";
 import { motion } from "framer-motion";
 import SvgIcon from "./SvgIcon";
+import { useState, useEffect } from "react";
 const EASE_BOUNCE = [0.68, -0.55, 0.265, 1.55] as const;
+
 const ImageSection = () => {
+  const carouselImages = ["/assets/1.avif", "/assets/img/event/haldi.png"];
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex(
+        (prevIndex) => (prevIndex + 1) % carouselImages.length
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [carouselImages.length]);
+
   return (
     <section className="w-full relative text-[#F2CD93] font-Jacques-plain">
       <img
@@ -13,21 +29,21 @@ const ImageSection = () => {
       <img
         src="/assets/img/event/headerImg.png"
         alt="wedding-photo"
-        className="object-cover absolute top-9 right-9 w-auto h-106"
+        className="object-cover absolute md:top-9 md:right-9 top-2 right-2 w-auto md:h-106 h-30"
       />
       <img
         src="/assets/img/event/headerImg.png"
         alt="wedding-photo"
-        className="object-cover absolute top-9 left-9 w-auto h-106 scale-x-[-1]"
+        className="object-cover absolute md:top-9 md:left-9 top-2 left-2 w-auto md:h-106 h-30 scale-x-[-1]"
       />
-      <p className=" md:text-[42px] text-xl  text-center absolute left-1/2 -translate-x-1/2 md:top-[294px] top-17/20 uppercase leading-[120%]">
+      <p className=" md:text-[42px] text-xl  text-center absolute left-1/2 -translate-x-1/2 md:top-[294px] top-2/20 uppercase leading-[120%]">
         meet the <br />
         <span className="md:text-[78px] leading-[120%]">
           bridge and
           <br /> groom
         </span>
       </p>
-      <p className=" md:text-[27px] text-xl  text-center absolute left-1/2 -translate-x-1/2 md:top-[570px] top-17/20 leading-[120%]">
+      <p className=" md:text-[27px] text-xs  text-center absolute left-1/2 -translate-x-1/2 md:top-[570px] top-4/20 leading-[120%] w-full px-5">
         We are both so delighted that you are able to join us in celebrating
         what we hope will be one of the happiest days of our lives. The
         affection shown to us by so many people since our roka has been
@@ -35,12 +51,30 @@ const ImageSection = () => {
         this opportunity to thank everyone most sincerely for their kindness.We
         are looking forward to see you at the wedding.
       </p>
-      <img
-        src="/assets/img/event/imageFrame.png"
-        alt="wedding-photo"
-        className="object-cover absolute top-5/18 left-1/2 -translate-x-1/2"
-      />
-      <p className=" md:text-5xl text-xl  text-center absolute left-1/2 -translate-x-1/2 md:top-12/18 top-17/20">
+
+      <div className="absolute md:top-6/18 top-6/18 left-1/2 -translate-x-1/2">
+        <div className="relative inline-block">
+          <img
+            src="/assets/img/event/imageFrame.png"
+            alt="frame"
+            className="relative z-20 w-full h-auto object-contain pointer-events-none select-none"
+          />
+          <motion.img
+            key={currentImageIndex}
+            src={carouselImages[currentImageIndex]}
+            alt="photo"
+            className=" absolute top-[14%] left-[14%] w-[72%] h-[72%] object-cover z-10  rounded-full  overflow-hidden"
+            style={{
+              clipPath: "circle(50% at 50% 50%)",
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          />
+        </div>
+      </div>
+      <p className=" md:text-5xl text-xl  text-center absolute left-1/2 -translate-x-1/2 md:top-12/18 top-12/20">
         Please <br /> rsvp
         <br />
         <span className="md:text-2xl text-xs">
@@ -50,7 +84,7 @@ const ImageSection = () => {
       </p>
       <motion.a
         href="https://wa.me/1234567890"
-        className="absolute  left-1/2 -translate-x-1/2 md:top-13/18 mt-10 top-500"
+        className="absolute  left-1/2 -translate-x-1/2 md:top-13/18 mt-10 top-14/20"
         animate={{
           y: [0, -15, 0],
           scale: [1, 1.1, 1],
@@ -67,17 +101,17 @@ const ImageSection = () => {
           className="w-15 h-10 md:w-18 md:h-18 text-[#F2CD93]"
         />
       </motion.a>
-       <motion.img
+      <motion.img
         src="/assets/img/event/dummyTree1.png"
         alt="fountain"
-        className="absolute -bottom-3 right-0 w-auto h-auto "
+        className="absolute -bottom-3 right-0 w-auto h-70 md:h-auto "
       />
       <motion.img
         src="/assets/img/event/dummyTree2.png"
         alt="fountain"
-        className="absolute -bottom-3 left-0 w-auto h-auto"
+        className="absolute -bottom-3 left-0 w-auto h-70 md:h-auto"
       />
-     
+
       <motion.img
         src="/assets/img/event/horse1.png"
         alt="wedding-photo"
