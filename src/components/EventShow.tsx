@@ -6,10 +6,29 @@ import SvgIcon from "./SvgIcon";
 const EASE_SOFT_OUT = [0.16, 1, 0.3, 1] as const;
 const EASE_BOUNCE = [0.68, -0.55, 0.265, 1.55] as const;
 
-const events = [
+interface Event {
+  id?: number;
+  eventName: string;
+  date: string;
+  venue?: string;
+  time?: string;
+  img?: string;
+  location?: string;
+  locationLink?: string;
+}
+
+interface EventShowProps {
+  events?: Event[];
+  eventsSectionTitle?: string;
+  mapSectionText?: string;
+  mapClickText?: string;
+  mapLink?: string;
+}
+
+const defaultEvents = [
   {
     id: 1,
-    title: "Mehandi",
+    eventName: "Mehandi",
     date: "Friday, December 25th 2025",
     venue: "Taj Exotica Resort, Goa",
     time: "6pm Onwards",
@@ -17,7 +36,7 @@ const events = [
   },
   {
     id: 2,
-    title: "Haldi",
+    eventName: "Haldi",
     date: "Friday, December 25th 2025",
     venue: "Taj Exotica Resort, Goa",
     time: "6pm Onwards",
@@ -25,7 +44,7 @@ const events = [
   },
   {
     id: 3,
-    title: "Cocktail",
+    eventName: "Cocktail",
     date: "Friday, December 25th 2025",
     venue: "Taj Exotica Resort, Goa",
     time: "6pm Onwards",
@@ -33,7 +52,7 @@ const events = [
   },
   {
     id: 4,
-    title: "Pre-wedding",
+    eventName: "Pre-wedding",
     date: "Friday, December 25th 2025",
     venue: "Taj Exotica Resort, Goa",
     time: "6pm Onwards",
@@ -41,7 +60,7 @@ const events = [
   },
   {
     id: 5,
-    title: "Shaddi",
+    eventName: "Shaddi",
     date: "Friday, December 25th 2025",
     venue: "Taj Exotica Resort, Goa",
     time: "6pm Onwards",
@@ -49,7 +68,7 @@ const events = [
   },
   {
     id: 6,
-    title: "Reception",
+    eventName: "Reception",
     date: "Friday, December 25th 2025",
     venue: "Taj Exotica Resort, Goa",
     time: "6pm Onwards",
@@ -57,7 +76,15 @@ const events = [
   },
 ];
 
-const EventShow = () => {
+const EventShow = ({
+  events = defaultEvents,
+  eventsSectionTitle = 'On the following events',
+  mapSectionText = 'See the route',
+  mapClickText = 'Click to open the map',
+  mapLink = '#',
+}: EventShowProps) => {
+  const displayEvents = events.length > 0 && events[0].eventName ? events : defaultEvents;
+  
   return (
     <section className="w-full relative text-[#7A5192] h-full overflow-hidden">
       <img
@@ -109,13 +136,13 @@ const EventShow = () => {
         </motion.div>
       ))}
       <p className="font-Jacques-plain md:text-5xl text-sm text-[#BD8C1C] text-center absolute  left-1/2  -translate-x-1/2 md:top-[330px] top-[70px]">
-        On the following events
+        {eventsSectionTitle}
       </p>
 
       <div className="absolute  font-Jacques-plain  left-3/6 -translate-x-1/2 md:top-[620px] top-30 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-20 gap-5 place-items-center">
-        {events.map((ev, index) => (
+        {displayEvents.map((ev, index) => (
           <motion.section
-            key={ev.id}
+            key={ev.id || index}
             className="text-center"
             whileHover={{
               scale: 1.08,
@@ -124,8 +151,8 @@ const EventShow = () => {
             }}
           >
             <motion.img
-              src={ev.img}
-              alt={ev.title}
+              src={ev.img || '/assets/img/event/mehandi.png'}
+              alt={ev.eventName}
               className="w-84 object-contain"
               animate={{
                 y: [0, -8, 0],
@@ -137,7 +164,7 @@ const EventShow = () => {
                 repeatDelay: 0,
               }}
             />
-            <h4 className="md:text-[42px] text-xl md:mt-4 mt-0">{ev.title}</h4>
+            <h4 className="md:text-[42px] text-xl md:mt-4 mt-0">{ev.eventName}</h4>
             <div className="md:text-xl text-sm leading-[120%] mt-2">
               {ev.date} <br />
               {ev.venue} <br />
@@ -147,12 +174,12 @@ const EventShow = () => {
         ))}
       </div>
       <p className="font-Jacques-plain md:text-5xl text-xl text-[#BD8C1C] text-center absolute left-1/2 -translate-x-1/2 md:top-12/18 top-17/20">
-        See the <br /> route <br />
-        <span className="md:text-2xl text-xs">Click to open the map</span>
+        {mapSectionText} <br /> <br />
+        <span className="md:text-2xl text-xs">{mapClickText}</span>
         <br />
       </p>
       <motion.a
-        href="#"
+        href={mapLink}
         className="absolute  left-1/2 -translate-x-1/2 md:top-13/18 mt-10 top-500"
         animate={{
           y: [0, -15, 0],

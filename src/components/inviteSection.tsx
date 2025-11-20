@@ -4,7 +4,35 @@ import SvgIcon from "./SvgIcon";
 
 const EASE_SOFT_OUT = [0.16, 1, 0.3, 1] as const;
 
-const InviteSection = () => {
+interface InviteSectionProps {
+  shlok?: string;
+  blessingsText?: string;
+  groomGrandparents?: string;
+  brideGrandparents?: string;
+  groomParents?: string;
+  brideParents?: string;
+  inviteText?: string;
+  daughterOfText?: string;
+  coupleName1?: string;
+  coupleName2?: string;
+  weddingDate?: string;
+  weddingVenue?: string;
+}
+
+const InviteSection = ({
+  shlok = 'ॐ श्री गणेशाय नम',
+  blessingsText = 'With the heavenly blessings of',
+  groomGrandparents = 'Smt. Lata Devi & Sm. Kamal Kapoor',
+  brideGrandparents = '',
+  groomParents = 'Mrs. Reena & Mr. Rajiv Kapoor',
+  brideParents = 'Mrs. Reena & Mr. Rajiv Kapoor',
+  inviteText = 'You to join us in the wedding celebrations of',
+  daughterOfText = 'Daughter of',
+  coupleName1 = 'Abhishek',
+  coupleName2 = 'Anjali',
+  weddingDate = 'Saturday, 21 June 2035',
+  weddingVenue = '123 Anywhere St., City, ST 12345',
+}: InviteSectionProps) => {
   return (
     <section className="w-full relative text-[#7A5192]">
       <img
@@ -21,7 +49,7 @@ const InviteSection = () => {
         className="
         font-Jacques-plain md:text-[26px] text-sm leading-[150%] absolute md:top-10 top-3 left-1/2 -translate-x-1/2 text-center text-[#BD8C1C]"
       >
-        ॐ श्री गणेशाय नम
+        {shlok}
       </p>
       <SvgIcon
         name="LordGanesh"
@@ -31,9 +59,10 @@ const InviteSection = () => {
         className="
         font-Jacques-plain  text-sm md:text-[42px] leading-[150%] absolute top-3/18 md:top-3/18 left-1/2 -translate-x-1/2 w-full text-center "
       >
-        With the heavenly blessings of <br />
-        Smt. Lata Devi & Sm. Kamal Kapoor <br /> and <br />
-        Mrs. Reena & Mr. Rajiv Kapoor
+        {blessingsText} <br />
+        {groomGrandparents} {brideGrandparents && <><br /> and <br /> {brideGrandparents}</>}
+        {(groomParents || brideParents) && <> <br /> and <br /></>}
+        {groomParents && brideParents ? `${brideParents} & ${groomParents}` : (groomParents || brideParents)}
       </p>
       <p
         className="
@@ -45,22 +74,22 @@ const InviteSection = () => {
         className="
         font-Jacques-plain text-sm md:text-[42px] leading-[150%] absolute top-9/20 md:top-8/18 left-1/2 -translate-x-1/2 text-center w-full"
       >
-        You to join us in the wedding celebrations of <br />
+        {inviteText} <br />
         <p className="md:mt-8 mt-4">
-          Daughter of <br />
-        Mrs. Reena & Mr. Rajiv Kapoor  
+          {daughterOfText} <br />
+        {brideParents}
         </p>
         
       </div>
       <p
         className="font-Parisienne text-sm md:text-[42px] leading-[150%] text-center absolute top-12/18 md:top-11/18 left-1/8 md:left-2/8 -translate-x-1/2"
       >
-        Abhishek <br /> & <br /> Anjali
+        {coupleName1} <br /> & <br /> {coupleName2}
       </p>
       <p
         className="font-Jacques-plain text-sm md:text-[42px] leading-[150%] text-center absolute top-12/18 md:top-11/18  left-6/8 -translate-x-1/2 w-full"
       >
-       Saturday, 21 June 2035 <br /> 123 Anywhere St., City, <br /> ST 12345
+       {weddingDate} <br /> {weddingVenue}
       </p>
 
       <img

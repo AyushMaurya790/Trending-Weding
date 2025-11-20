@@ -18,14 +18,31 @@ export interface IInvite {
   userId: string;
   templateId: string;
   slug: string;
+  heroGroomName: string; 
+  heroBrideName: string; 
+  shlok: string;
+  blessingsText: string;
+  groomGrandparents: string; 
+  brideGrandparents: string; 
+  groomParents: string; 
+  brideParents: string; 
+  inviteText: string; 
+  daughterOfText: string; 
+  coupleName1: string; 
+  coupleName2: string; 
+  weddingDate: string; 
+  weddingVenue: string; 
   groomName: string;
   bridalName: string;
-  shlok: string;
   groomFamilyName: string;
   bridalFamilyName: string;
   familyDetails: string;
   events: IEvent[];
-  images: string[]; // Cloudinary URLs
+  eventsSectionTitle: string; 
+  mapSectionText: string; 
+  mapClickText: string; 
+  images: string[]; 
+  heroImage: string; 
   whatsappLink: string;
   socialLinks: ISocialLink[];
   counterDate: string;
@@ -55,15 +72,69 @@ const InviteSchema = new Schema<IInvite>(
       unique: true,
       required: true,
     },
+    heroGroomName: {
+      type: String,
+      default: 'Abhishek',
+    },
+    heroBrideName: {
+      type: String,
+      default: 'Kanika',
+    },
+    shlok: {
+      type: String,
+      default: 'ॐ श्री गणेशाय नम',
+    },
+    blessingsText: {
+      type: String,
+      default: 'With the heavenly blessings of',
+    },
+    groomGrandparents: {
+      type: String,
+      default: 'Smt. Lata Devi & Sm. Kamal Kapoor',
+    },
+    brideGrandparents: {
+      type: String,
+      default: '',
+    },
+    groomParents: {
+      type: String,
+      default: 'Mrs. Reena & Mr. Rajiv Kapoor',
+    },
+    brideParents: {
+      type: String,
+      default: 'Mrs. Reena & Mr. Rajiv Kapoor',
+    },
+    inviteText: {
+      type: String,
+      default: 'You to join us in the wedding celebrations of',
+    },
+    daughterOfText: {
+      type: String,
+      default: 'Daughter of',
+    },
+    coupleName1: {
+      type: String,
+      default: 'Abhishek',
+    },
+    coupleName2: {
+      type: String,
+      default: 'Anjali',
+    },
+    weddingDate: {
+      type: String,
+      default: 'Saturday, 21 June 2035',
+    },
+    weddingVenue: {
+      type: String,
+      default: '123 Anywhere St., City, ST 12345',
+    },
+    
+    // Legacy fields
     groomName: {
       type: String,
       default: '',
     },
     bridalName: {
-      type: String,
-      default: '',
-    },
-    shlok: {
       type: String,
       default: '',
     },
@@ -88,7 +159,23 @@ const InviteSchema = new Schema<IInvite>(
         locationLink: String,
       },
     ],
+    eventsSectionTitle: {
+      type: String,
+      default: 'On the following events',
+    },
+    mapSectionText: {
+      type: String,
+      default: 'See the route',
+    },
+    mapClickText: {
+      type: String,
+      default: 'Click to open the map',
+    },
     images: [String],
+    heroImage: {
+      type: String,
+      default: '/assets/couple.png',
+    },
     whatsappLink: {
       type: String,
       default: '',
@@ -119,6 +206,7 @@ const InviteSchema = new Schema<IInvite>(
       type: String,
       default: '',
     },
+    
     isPurchased: {
       type: Boolean,
       default: false,

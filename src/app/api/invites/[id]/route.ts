@@ -5,8 +5,7 @@ import dbConnect from '@/lib/dbConnect';
 import Invite from '@/models/Invite';
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -16,9 +15,9 @@ export async function GET(
     }
 
     await dbConnect();
-
+    const { id } = await params;
     const invite = await Invite.findOne({
-      _id: params.id,
+      _id: id,
       userId: session.user.id,
     });
 
@@ -38,7 +37,7 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -50,10 +49,11 @@ export async function PUT(
     const data = await req.json();
 
     await dbConnect();
+    const { id } = await params;
 
     const invite = await Invite.findOneAndUpdate(
       {
-        _id: params.id,
+        _id: id,
         userId: session.user.id,
       },
       { $set: data },

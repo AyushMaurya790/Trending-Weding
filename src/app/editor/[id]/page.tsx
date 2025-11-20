@@ -3,6 +3,12 @@ import { useEffect, useState, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import TempHero from '@/components/tempHero';
+import InviteSection from '@/components/inviteSection';
+import EventShow from '@/components/EventShow';
+
+dayjs.extend(relativeTime);
 
 interface Event {
   eventName: string;
@@ -10,6 +16,9 @@ interface Event {
   date: string;
   location: string;
   locationLink: string;
+  venue?: string;
+  time?: string;
+  img?: string;
 }
 
 interface SocialLink {
@@ -18,13 +27,25 @@ interface SocialLink {
 }
 
 interface InviteData {
-  groomName: string;
-  bridalName: string;
+  heroGroomName: string;
+  heroBrideName: string;
+  heroImage: string;
   shlok: string;
-  groomFamilyName: string;
-  bridalFamilyName: string;
-  familyDetails: string;
+  blessingsText: string;
+  groomGrandparents: string;
+  brideGrandparents: string;
+  groomParents: string;
+  brideParents: string;
+  inviteText: string;
+  daughterOfText: string;
+  coupleName1: string;
+  coupleName2: string;
+  weddingDate: string;
+  weddingVenue: string;
   events: Event[];
+  eventsSectionTitle: string;
+  mapSectionText: string;
+  mapClickText: string;
   images: string[];
   whatsappLink: string;
   socialLinks: SocialLink[];
@@ -36,19 +57,33 @@ interface InviteData {
   slug: string;
 }
 
-export default function Editor({ params }: { params: { id: string } }) {
+export default function Editor({ params }: { params: Promise<{ id: string }> }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const [inviteId, setInviteId] = useState<string | null>(null);
   const [inviteData, setInviteData] = useState<InviteData>({
-    groomName: '',
-    bridalName: '',
-    shlok: '',
-    groomFamilyName: '',
-    bridalFamilyName: '',
-    familyDetails: '',
-    events: [{ eventName: '', weekDay: '', date: '', location: '', locationLink: '' }],
+    heroGroomName: 'Abhishek',
+    heroBrideName: 'Kanika',
+    heroImage: '/assets/couple.png',
+    shlok: 'ॐ श्री गणेशाय नम',
+    blessingsText: 'With the heavenly blessings of',
+    groomGrandparents: 'Smt. Lata Devi & Sm. Kamal Kapoor',
+    brideGrandparents: '',
+    groomParents: 'Mrs. Reena & Mr. Rajiv Kapoor',
+    brideParents: 'Mrs. Reena & Mr. Rajiv Kapoor',
+    inviteText: 'You to join us in the wedding celebrations of',
+    daughterOfText: 'Daughter of',
+    coupleName1: 'Abhishek',
+    coupleName2: 'Anjali',
+    weddingDate: 'Saturday, 21 June 2035',
+    weddingVenue: '123 Anywhere St., City, ST 12345',
+    events: [],
+    eventsSectionTitle: 'On the following events',
+    mapSectionText: 'See the route',
+    mapClickText: 'Click to open the map',
     images: [],
     whatsappLink: '',
     socialLinks: [{ platform: '', url: '' }],
@@ -60,43 +95,56 @@ export default function Editor({ params }: { params: { id: string } }) {
     slug: '',
   });
   const [uploadingImage, setUploadingImage] = useState(false);
-
-  // Auto-save effect (5 seconds after last change)
   useEffect(() => {
-    if (!loading) {
+    params.then((p) => setInviteId(p.id));
+  }, [params]);
+  useEffect(() => {
+    if (!loading && inviteId) {
       const timer = setTimeout(() => {
         saveInvite();
       }, 5000);
 
       return () => clearTimeout(timer);
     }
-  }, [inviteData, loading]);
-
-  // Fetch invite data
+  }, [inviteData, loading, inviteId]);
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/login');
       return;
     }
 
-    if (status === 'authenticated') {
+    if (status === 'authenticated' && inviteId) {
       fetchInvite();
     }
-  }, [status]);
+  }, [status, inviteId]);
 
   const fetchInvite = async () => {
+    if (!inviteId) return;
+    
     try {
-      const response = await fetch(`/api/invites/${params.id}`);
+      const response = await fetch(`/api/invites/${inviteId}`);
       if (response.ok) {
         const data = await response.json();
         setInviteData({
-          groomName: data.groomName || '',
-          bridalName: data.bridalName || '',
-          shlok: data.shlok || '',
-          groomFamilyName: data.groomFamilyName || '',
-          bridalFamilyName: data.bridalFamilyName || '',
-          familyDetails: data.familyDetails || '',
-          events: data.events.length > 0 ? data.events : [{ eventName: '', weekDay: '', date: '', location: '', locationLink: '' }],
+          heroGroomName: data.heroGroomName || 'Abhishek',
+          heroBrideName: data.heroBrideName || 'Kanika',
+          heroImage: data.heroImage || '/assets/couple.png',
+          shlok: data.shlok || 'ॐ श्री गणेशाय नम',
+          blessingsText: data.blessingsText || 'With the heavenly blessings of',
+          groomGrandparents: data.groomGrandparents || 'Smt. Lata Devi & Sm. Kamal Kapoor',
+          brideGrandparents: data.brideGrandparents || '',
+          groomParents: data.groomParents || 'Mrs. Reena & Mr. Rajiv Kapoor',
+          brideParents: data.brideParents || 'Mrs. Reena & Mr. Rajiv Kapoor',
+          inviteText: data.inviteText || 'You to join us in the wedding celebrations of',
+          daughterOfText: data.daughterOfText || 'Daughter of',
+          coupleName1: data.coupleName1 || 'Abhishek',
+          coupleName2: data.coupleName2 || 'Anjali',
+          weddingDate: data.weddingDate || 'Saturday, 21 June 2035',
+          weddingVenue: data.weddingVenue || '123 Anywhere St., City, ST 12345',
+          events: data.events.length > 0 ? data.events : [],
+          eventsSectionTitle: data.eventsSectionTitle || 'On the following events',
+          mapSectionText: data.mapSectionText || 'See the route',
+          mapClickText: data.mapClickText || 'Click to open the map',
           images: data.images || [],
           whatsappLink: data.whatsappLink || '',
           socialLinks: data.socialLinks.length > 0 ? data.socialLinks : [{ platform: '', url: '' }],
@@ -118,23 +166,24 @@ export default function Editor({ params }: { params: { id: string } }) {
   };
 
   const saveInvite = useCallback(async () => {
-    if (saving) return;
+    if (saving || !inviteId) return;
     
     setSaving(true);
     try {
-      await fetch(`/api/invites/${params.id}`, {
+      await fetch(`/api/invites/${inviteId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(inviteData),
       });
+      setLastSaved(new Date());
     } catch (error) {
       console.error('Error saving invite:', error);
     } finally {
       setSaving(false);
     }
-  }, [inviteData, params.id, saving]);
+  }, [inviteData, inviteId, saving]);
 
   const handleInputChange = (field: keyof InviteData, value: string) => {
     setInviteData((prev) => ({ ...prev, [field]: value }));
@@ -156,12 +205,21 @@ export default function Editor({ params }: { params: { id: string } }) {
   const addEvent = () => {
     setInviteData((prev) => ({
       ...prev,
-      events: [...prev.events, { eventName: '', weekDay: '', date: '', location: '', locationLink: '' }],
+      events: [...prev.events, { 
+        eventName: '', 
+        weekDay: '', 
+        date: '', 
+        location: '', 
+        locationLink: '',
+        venue: '',
+        time: '',
+        img: '/assets/img/event/mehandi.png'
+      }],
     }));
   };
 
   const removeEvent = (index: number) => {
-    if (inviteData.events.length > 1) {
+    if (inviteData.events.length > 0) {
       const newEvents = inviteData.events.filter((_, i) => i !== index);
       setInviteData((prev) => ({ ...prev, events: newEvents }));
     }
@@ -255,111 +313,206 @@ export default function Editor({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+    <div className="min-h-screen bg-gray-50 w-full">
+      <div className="bg-white border-b sticky top-0 z-50 shadow-sm">
+        <div className=" mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold">Edit Your Invitation</h1>
           <div className="flex items-center gap-4">
             {saving && <span className="text-sm text-gray-500">Saving...</span>}
+            {!saving && lastSaved && (
+              <span className="text-sm text-gray-500">
+                Saved {dayjs(lastSaved).fromNow()}
+              </span>
+            )}
+            <button
+              onClick={saveInvite}
+              disabled={saving}
+              className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition disabled:opacity-50"
+            >
+              Save Now
+            </button>
             <button
               onClick={copyShareLink}
               className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
             >
-              Copy Share Link
-            </button>
-            <button
-              onClick={saveInvite}
-              className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition"
-            >
-              Save Now
+               Copy Share Link
             </button>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className=" mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Editor Panel */}
-          <div className="space-y-6">
+          <div className="space-y-6 overflow-y-auto max-h-[calc(100vh-120px)]">
             <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Couple Details</h2>
+              <h2 className="text-xl font-bold mb-4 text-primary">Hero Section</h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Groom Name *</label>
+                  <label className="block text-gray-700 mb-2 font-medium">Groom Name (Hero) *</label>
                   <input
                     type="text"
-                    value={inviteData.groomName}
-                    onChange={(e) => handleInputChange('groomName', e.target.value)}
+                    value={inviteData.heroGroomName}
+                    onChange={(e) => handleInputChange('heroGroomName', e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Enter groom's name"
+                    placeholder="e.g., Abhishek"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Bride Name *</label>
+                  <label className="block text-gray-700 mb-2 font-medium">Bride Name (Hero) *</label>
                   <input
                     type="text"
-                    value={inviteData.bridalName}
-                    onChange={(e) => handleInputChange('bridalName', e.target.value)}
+                    value={inviteData.heroBrideName}
+                    onChange={(e) => handleInputChange('heroBrideName', e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Enter bride's name"
+                    placeholder="e.g., Kanika"
                   />
                 </div>
+              </div>
+            </div>
 
+            {/* Invite Section */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-bold mb-4 text-primary">Invitation Details</h2>
+              <div className="space-y-4">
                 <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Shlok / Quote</label>
-                  <textarea
+                  <label className="block text-gray-700 mb-2 font-medium">Shlok / Sacred Text</label>
+                  <input
+                    type="text"
                     value={inviteData.shlok}
                     onChange={(e) => handleInputChange('shlok', e.target.value)}
-                    rows={3}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Enter shlok or quote"
+                    placeholder="e.g., ॐ श्री गणेशाय नम"
                   />
                 </div>
-              </div>
-            </div>
 
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Family Details</h2>
-              <div className="space-y-4">
                 <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Groom Family Name</label>
+                  <label className="block text-gray-700 mb-2 font-medium">Blessings Text</label>
                   <input
                     type="text"
-                    value={inviteData.groomFamilyName}
-                    onChange={(e) => handleInputChange('groomFamilyName', e.target.value)}
+                    value={inviteData.blessingsText}
+                    onChange={(e) => handleInputChange('blessingsText', e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Enter groom's family name"
+                    placeholder="e.g., With the heavenly blessings of"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Bride Family Name</label>
+                  <label className="block text-gray-700 mb-2 font-medium">Groom Grandparents</label>
                   <input
                     type="text"
-                    value={inviteData.bridalFamilyName}
-                    onChange={(e) => handleInputChange('bridalFamilyName', e.target.value)}
+                    value={inviteData.groomGrandparents}
+                    onChange={(e) => handleInputChange('groomGrandparents', e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Enter bride's family name"
+                    placeholder="e.g., Smt. Lata Devi & Sm. Kamal Kapoor"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Family Details</label>
+                  <label className="block text-gray-700 mb-2 font-medium">Bride Grandparents</label>
+                  <input
+                    type="text"
+                    value={inviteData.brideGrandparents}
+                    onChange={(e) => handleInputChange('brideGrandparents', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Optional"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Groom Parents</label>
+                  <input
+                    type="text"
+                    value={inviteData.groomParents}
+                    onChange={(e) => handleInputChange('groomParents', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="e.g., Mrs. Reena & Mr. Rajiv Kapoor"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Bride Parents</label>
+                  <input
+                    type="text"
+                    value={inviteData.brideParents}
+                    onChange={(e) => handleInputChange('brideParents', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="e.g., Mrs. Reena & Mr. Rajiv Kapoor"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Invitation Text</label>
+                  <input
+                    type="text"
+                    value={inviteData.inviteText}
+                    onChange={(e) => handleInputChange('inviteText', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="e.g., You to join us in the wedding celebrations of"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Daughter Of Text</label>
+                  <input
+                    type="text"
+                    value={inviteData.daughterOfText}
+                    onChange={(e) => handleInputChange('daughterOfText', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="e.g., Daughter of"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Couple Name 1</label>
+                  <input
+                    type="text"
+                    value={inviteData.coupleName1}
+                    onChange={(e) => handleInputChange('coupleName1', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="e.g., Abhishek"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Couple Name 2</label>
+                  <input
+                    type="text"
+                    value={inviteData.coupleName2}
+                    onChange={(e) => handleInputChange('coupleName2', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="e.g., Anjali"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Wedding Date & Time</label>
+                  <input
+                    type="text"
+                    value={inviteData.weddingDate}
+                    onChange={(e) => handleInputChange('weddingDate', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="e.g., Saturday, 21 June 2035"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Wedding Venue</label>
                   <textarea
-                    value={inviteData.familyDetails}
-                    onChange={(e) => handleInputChange('familyDetails', e.target.value)}
-                    rows={4}
+                    value={inviteData.weddingVenue}
+                    onChange={(e) => handleInputChange('weddingVenue', e.target.value)}
+                    rows={2}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Enter family details"
+                    placeholder="e.g., 123 Anywhere St., City, ST 12345"
                   />
                 </div>
               </div>
             </div>
 
+            {/* Events Section */}
             <div className="bg-white rounded-lg shadow-lg p-6">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold">Events</h2>
+                <h2 className="text-xl font-bold text-primary">Events</h2>
                 <button
                   onClick={addEvent}
                   className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition text-sm"
@@ -367,19 +520,52 @@ export default function Editor({ params }: { params: { id: string } }) {
                   + Add Event
                 </button>
               </div>
-              <div className="space-y-6">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Events Section Title</label>
+                  <input
+                    type="text"
+                    value={inviteData.eventsSectionTitle}
+                    onChange={(e) => handleInputChange('eventsSectionTitle', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="e.g., On the following events"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Map Section Text</label>
+                  <input
+                    type="text"
+                    value={inviteData.mapSectionText}
+                    onChange={(e) => handleInputChange('mapSectionText', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="e.g., See the route"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Map Click Text</label>
+                  <input
+                    type="text"
+                    value={inviteData.mapClickText}
+                    onChange={(e) => handleInputChange('mapClickText', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="e.g., Click to open the map"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-6 mt-6">
                 {inviteData.events.map((event, index) => (
-                  <div key={index} className="border border-gray-200 rounded-lg p-4">
+                  <div key={index} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
                     <div className="flex justify-between items-center mb-3">
                       <h3 className="font-semibold">Event {index + 1}</h3>
-                      {inviteData.events.length > 1 && (
-                        <button
-                          onClick={() => removeEvent(index)}
-                          className="text-red-500 hover:text-red-700"
-                        >
-                          Remove
-                        </button>
-                      )}
+                      <button
+                        onClick={() => removeEvent(index)}
+                        className="text-red-500 hover:text-red-700 text-sm"
+                      >
+                        Remove
+                      </button>
                     </div>
                     <div className="space-y-3">
                       <input
@@ -399,15 +585,22 @@ export default function Editor({ params }: { params: { id: string } }) {
                         type="text"
                         value={event.weekDay}
                         readOnly
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100"
                         placeholder="Week day (auto-filled)"
                       />
                       <input
                         type="text"
-                        value={event.location}
-                        onChange={(e) => handleEventChange(index, 'location', e.target.value)}
+                        value={event.venue || ''}
+                        onChange={(e) => handleEventChange(index, 'venue', e.target.value)}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                        placeholder="Location"
+                        placeholder="Venue"
+                      />
+                      <input
+                        type="text"
+                        value={event.time || ''}
+                        onChange={(e) => handleEventChange(index, 'time', e.target.value)}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        placeholder="Time (e.g., 6pm Onwards)"
                       />
                       <input
                         type="url"
@@ -419,11 +612,15 @@ export default function Editor({ params }: { params: { id: string } }) {
                     </div>
                   </div>
                 ))}
+                {inviteData.events.length === 0 && (
+                  <p className="text-gray-500 text-sm text-center py-4">No events added yet. Click "Add Event" to start.</p>
+                )}
               </div>
             </div>
 
+            {/* Images Section */}
             <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Images (Max 10)</h2>
+              <h2 className="text-xl font-bold mb-4 text-primary">Images (Max 10)</h2>
               <div className="space-y-4">
                 <div>
                   <input
@@ -452,8 +649,9 @@ export default function Editor({ params }: { params: { id: string } }) {
               </div>
             </div>
 
+            {/* Contact & Social */}
             <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Contact & Social</h2>
+              <h2 className="text-xl font-bold mb-4 text-primary">Contact & Social</h2>
               <div className="space-y-4">
                 <div>
                   <label className="block text-gray-700 mb-2 font-medium">WhatsApp Link</label>
@@ -506,8 +704,9 @@ export default function Editor({ params }: { params: { id: string } }) {
               </div>
             </div>
 
+            {/* Extra Fields */}
             <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Counter & Extras</h2>
+              <h2 className="text-xl font-bold mb-4 text-primary">Extra Fields</h2>
               <div className="space-y-4">
                 <div>
                   <label className="block text-gray-700 mb-2 font-medium">Counter Date</label>
@@ -565,112 +764,36 @@ export default function Editor({ params }: { params: { id: string } }) {
               </div>
             </div>
           </div>
-
-          {/* Live Preview Panel */}
-          <div className="lg:sticky lg:top-20 h-fit">
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Live Preview</h2>
-              <div className="border border-gray-300 rounded-lg p-6 bg-linear-to-br from-pink-50 to-purple-50 min-h-[600px]">
-                <div className="text-center space-y-6">
-                  {inviteData.shlok && (
-                    <div className="italic text-gray-700 text-sm">&quot;{inviteData.shlok}&quot;</div>
-                  )}
-                  
-                  <div>
-                    <h3 className="text-3xl font-bold text-primary mb-2">
-                      {inviteData.groomName || 'Groom Name'} & {inviteData.bridalName || 'Bride Name'}
-                    </h3>
-                    {(inviteData.groomFamilyName || inviteData.bridalFamilyName) && (
-                      <p className="text-gray-600">
-                        {inviteData.groomFamilyName && `S/O ${inviteData.groomFamilyName}`}
-                        {inviteData.groomFamilyName && inviteData.bridalFamilyName && ' & '}
-                        {inviteData.bridalFamilyName && `D/O ${inviteData.bridalFamilyName}`}
-                      </p>
-                    )}
-                  </div>
-
-                  {inviteData.familyDetails && (
-                    <p className="text-gray-700 text-sm">{inviteData.familyDetails}</p>
-                  )}
-
-                  {inviteData.events.length > 0 && inviteData.events[0].eventName && (
-                    <div className="space-y-4 mt-6">
-                      <h4 className="font-semibold text-lg">Events</h4>
-                      {inviteData.events.map((event, index) => (
-                        event.eventName && (
-                          <div key={index} className="bg-white rounded-lg p-4 text-left">
-                            <h5 className="font-semibold text-primary">{event.eventName}</h5>
-                            {event.date && (
-                              <p className="text-sm text-gray-600">
-                                {dayjs(event.date).format('MMMM DD, YYYY')} ({event.weekDay})
-                              </p>
-                            )}
-                            {event.location && <p className="text-sm text-gray-600">{event.location}</p>}
-                            {event.locationLink && (
-                              <a
-                                href={event.locationLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-sm text-blue-600 hover:underline"
-                              >
-                                View Location →
-                              </a>
-                            )}
-                          </div>
-                        )
-                      ))}
-                    </div>
-                  )}
-
-                  {inviteData.counterDate && (
-                    <div className="bg-white rounded-lg p-4 mt-6">
-                      <p className="text-sm text-gray-600 mb-2">Days Until Wedding</p>
-                      <p className="text-3xl font-bold text-primary">
-                        {dayjs(inviteData.counterDate).diff(dayjs(), 'day')} Days
-                      </p>
-                    </div>
-                  )}
-
-                  {inviteData.images.length > 0 && (
-                    <div className="grid grid-cols-2 gap-2 mt-6">
-                      {inviteData.images.slice(0, 4).map((url, index) => (
-                        <img
-                          key={index}
-                          src={url}
-                          alt={`Gallery ${index + 1}`}
-                          className="w-full h-32 object-cover rounded-lg"
-                        />
-                      ))}
-                    </div>
-                  )}
-
-                  {(inviteData.whatsappLink || inviteData.socialLinks.some(l => l.url)) && (
-                    <div className="flex justify-center gap-4 mt-6">
-                      {inviteData.whatsappLink && (
-                        <a
-                          href={inviteData.whatsappLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-green-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-600"
-                        >
-                          WhatsApp
-                        </a>
-                      )}
-                      {inviteData.socialLinks.map((link, index) => (
-                        link.url && (
-                          <a
-                            key={index}
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-opacity-90"
-                          >
-                            {link.platform || 'Link'}
-                          </a>
-                        )
-                      ))}
-                    </div>
-                  )}
+          <div className="lg:sticky lg:top-24 h-fit">
+            <div className="bg-white rounded-lg shadow-lg p-4">
+              <h2 className="text-xl font-bold mb-4 text-center">Live Preview</h2>
+              <div className="border border-gray-300 rounded-lg overflow-hidden bg-gray-50">
+                <div className="scale-50 origin-top-left" style={{ width: '200%', height: 'auto' }}>
+                  <TempHero 
+                    groomName={inviteData.heroGroomName}
+                    brideName={inviteData.heroBrideName}
+                    heroImage={inviteData.heroImage}
+                  />
+                  <InviteSection 
+                    shlok={inviteData.shlok}
+                    blessingsText={inviteData.blessingsText}
+                    groomGrandparents={inviteData.groomGrandparents}
+                    brideGrandparents={inviteData.brideGrandparents}
+                    groomParents={inviteData.groomParents}
+                    brideParents={inviteData.brideParents}
+                    inviteText={inviteData.inviteText}
+                    daughterOfText={inviteData.daughterOfText}
+                    coupleName1={inviteData.coupleName1}
+                    coupleName2={inviteData.coupleName2}
+                    weddingDate={inviteData.weddingDate}
+                    weddingVenue={inviteData.weddingVenue}
+                  />
+                  <EventShow 
+                    events={inviteData.events}
+                    eventsSectionTitle={inviteData.eventsSectionTitle}
+                    mapSectionText={inviteData.mapSectionText}
+                    mapClickText={inviteData.mapClickText}
+                  />
                 </div>
               </div>
               <p className="text-xs text-gray-500 mt-4 text-center">

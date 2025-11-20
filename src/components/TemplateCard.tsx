@@ -18,6 +18,40 @@ export default function TemplateCard({ template }: TemplateCardProps) {
   const { data: session } = useSession();
   const router = useRouter();
 
+  const handleEditClick = async () => {
+    console.log('Edit button clicked!');
+    
+    // DEVELOPMENT MODE: Simplified flow
+    if (!session) {
+      console.log('No session, redirecting to login');
+      router.push('/login');
+      return;
+    }
+    
+    console.log('Creating/fetching draft for template:', template._id);
+    
+    try {
+      const response = await fetch('/api/invites/create-draft', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          templateId: template._id,
+        }),
+      });
+      if (response.ok) {
+        const invite = await response.json();
+        router.push(`/editor/${invite._id}`);
+      } else {
+        const errorData = await response.json();
+        console.error('Failed to create/get draft:', errorData);
+      }
+    } catch (error) {
+      console.error('Edit error:', error);
+    }
+  };
+
   const handleBuyClick = async () => {
     if (!session) {
       router.push('/login');
@@ -68,6 +102,12 @@ export default function TemplateCard({ template }: TemplateCardProps) {
           >
             View Demo
           </Link>
+           <button
+            onClick={handleEditClick}
+            className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg text-center hover:bg-blue-600 transition"
+          >
+            Edit
+          </button>
           <button
             onClick={handleBuyClick}
             className="flex-1 bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition"

@@ -12,6 +12,12 @@ interface IconConfig {
   delay?: number;
 }
 
+interface TempHeroProps {
+  groomName?: string;
+  brideName?: string;
+  heroImage?: string;
+}
+
 const ICON_CONFIG: IconConfig[] = [
   {
     name: "FlowerYellow",
@@ -148,11 +154,11 @@ const getIconAnimation = (type: IconAnimation, delay = 0) => {
   }
 };
 
-const TempHero = () => {
+const TempHero = ({ groomName = 'Abhishek', brideName = 'Kanika', heroImage = '/assets/couple.png' }: TempHeroProps) => {
   return (
     <section  className="relative w-full overflow-hidden">
       <motion.img
-        src="/assets/couple.png"
+        src={heroImage}
         alt="wedding-photo"
         initial={{ opacity: 0, y: -30, scale: 1.08 }}
         animate={{
@@ -218,7 +224,7 @@ const TempHero = () => {
             transition: { duration: 1.1, delay: 0.4, ease: EASE_SOFT_OUT },
           }}
         >
-          Abhishek <span className="opacity-55 leading-6"><br /> Weds</span><br />  Kanika
+          {groomName} <span className="opacity-55 leading-6"><br /> Weds</span><br />  {brideName}
         </motion.h1>
       </motion.div>
     </section>
