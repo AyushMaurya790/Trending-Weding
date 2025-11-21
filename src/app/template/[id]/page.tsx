@@ -1,7 +1,8 @@
 import TempHero from "@/components/tempHero";
-import InviteSection from "@/components/inviteSection";
 import EventShow from "@/components/EventShow";
 import ImageSection from "@/components/ImageSection";
+import InviteSection from "@/components/inviteSection";
+import SubDetails from "@/components/SubDetails";
 
 export default function TemplateDetail() {
   return (
@@ -10,6 +11,7 @@ export default function TemplateDetail() {
       <InviteSection />
       <EventShow />
       <ImageSection />
+      <SubDetails />
     </div>
   );
 }
