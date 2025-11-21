@@ -1,6 +1,7 @@
 'use client';
 import { motion } from "framer-motion";
 import SvgIcon from "./SvgIcon";
+import Image from "next/image";
 
 const EASE_SOFT_OUT = [0.16, 1, 0.3, 1] as const;
 
@@ -35,14 +36,18 @@ const InviteSection = ({
 }: InviteSectionProps) => {
   return (
     <section className="w-full relative text-[#7A5192]">
-      <img
+      <Image
         src="/assets/inviteSectionBg.png"
         alt="wedding-photo"
+        width={1920}
+        height={1080}
         className="object-cover md:h-556 h-200"
       />
-      <img
+      <Image
         src="/assets/HeaderImg.png"
         alt="wedding-photo"
+        width={1920}
+        height={1080}
         className="object-cover absolute md:-top-10 -top-2 mx-auto w-full"
       />
       <p

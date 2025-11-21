@@ -43,7 +43,7 @@ const ImageSection = () => {
           <br /> groom
         </span>
       </p>
-      <p className=" md:text-[27px] text-xs  text-center absolute left-1/2 -translate-x-1/2 md:top-[570px] top-4/20 leading-[120%] w-full px-5">
+      <p className=" md:text-[27px] text-xs  text-center absolute left-1/2 -translate-x-1/2 md:top-[570px] top-4/20 leading-[120%] w-full px-5 md:max-w-6xl">
         We are both so delighted that you are able to join us in celebrating
         what we hope will be one of the happiest days of our lives. The
         affection shown to us by so many people since our roka has been
