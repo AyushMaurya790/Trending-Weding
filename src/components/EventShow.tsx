@@ -86,7 +86,7 @@ const EventShow = ({
   const displayEvents = events.length > 0 && events[0].eventName ? events : defaultEvents;
   
   return (
-    <section className="w-full relative text-[#7A5192] h-full overflow-hidden">
+    <section className="w-full relative text-[#7A5192] h-full ">
       <img
         src="/assets/eventBg.png"
         alt="background"
@@ -197,7 +197,7 @@ const EventShow = ({
       <motion.img
         src="/assets/img/event/fountainleft.png"
         alt="fountain"
-        className="absolute -bottom-3 left-0 w-40 md:w-xl md:h-206"
+        className="absolute -bottom-2 left-0 w-40 md:w-xl md:h-206"
       />
       {[...Array(50)].map((_, i) => (
         <motion.div
@@ -230,7 +230,7 @@ const EventShow = ({
       <motion.img
         src="/assets/img/event/fountainright.png"
         alt="fountain"
-        className="absolute -bottom-3 right-0 w-40 md:w-xl md:h-115"
+        className="absolute -bottom-2.5 right-0 w-40 md:w-xl md:h-115"
       />
       {[...Array(50)].map((_, i) => (
         <motion.div
@@ -262,7 +262,7 @@ const EventShow = ({
       <motion.img
         src="/assets/img/event/horse.png"
         alt="wedding-photo"
-        className="object-cover absolute md:-bottom-10 -bottom-5 left-1/2 -translate-x-1/2 md:h-132 h-40 z-100"
+        className="object-cover absolute md:-bottom-15 -bottom-5 left-1/2 -translate-x-1/2 md:h-132 h-40 z-100"
         animate={{
           y: [0, -12, -6, 0, -10, 0],
           scale: [1, 1.05, 0.98, 1.02, 1],
