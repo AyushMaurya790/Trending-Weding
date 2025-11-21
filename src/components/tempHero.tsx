@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import SvgIcon from "./SvgIcon";
 
-type IconAnimation = "floatSlow" | "floatMedium" | "sway" | "pulse" |"none";
+type IconAnimation = "floatSlow" | "floatMedium" | "sway" | "pulse" | "none";
 
 interface IconConfig {
   name: string;
@@ -80,7 +80,7 @@ const ICON_CONFIG: IconConfig[] = [
     wrapperClass: "absolute left-1/2 bottom-0 -translate-x-1/2 z-20",
     iconClass: "md:h-350 h-80 ",
     animation: "none",
-    delay:0,
+    delay: 0,
   },
 ];
 
@@ -90,9 +90,9 @@ const EASE_SWAY = [0.25, 0.1, 0.25, 1] as const;
 const getResponsiveY = () => {
   const w = typeof window !== "undefined" ? window.innerWidth : 1200;
 
-  if (w < 640) return [0, -15, 0]; 
-  if (w < 1024) return [0, -20, 0];  
-  return [0, -30, 0];                 
+  if (w < 640) return [0, -15, 0];
+  if (w < 1024) return [0, -20, 0];
+  return [0, -30, 0];
 };
 const getIconAnimation = (type: IconAnimation, delay = 0) => {
   switch (type) {
@@ -109,7 +109,7 @@ const getIconAnimation = (type: IconAnimation, delay = 0) => {
       };
     case "floatMedium":
       return {
-         y: getResponsiveY(),
+        y: getResponsiveY(),
         scale: [1, 1.06, 1],
         transition: {
           duration: 7,
@@ -140,7 +140,7 @@ const getIconAnimation = (type: IconAnimation, delay = 0) => {
           delay,
         },
       };
-      case "none":
+    case "none":
       return {
         x: [0, 0, 0, 0],
         rotate: [0, 0, 0, 0],
@@ -154,9 +154,13 @@ const getIconAnimation = (type: IconAnimation, delay = 0) => {
   }
 };
 
-const TempHero = ({ groomName = 'Abhishek', brideName = 'Kanika', heroImage = '/assets/couple.png' }: TempHeroProps) => {
+const TempHero = ({
+  groomName = "Abhishek",
+  brideName = "Kanika",
+  heroImage = "/assets/couple.png",
+}: TempHeroProps) => {
   return (
-    <section  className="relative w-full overflow-hidden">
+    <section className="relative w-full overflow-hidden">
       <motion.img
         src={heroImage}
         alt="wedding-photo"
@@ -201,6 +205,8 @@ const TempHero = ({ groomName = 'Abhishek', brideName = 'Kanika', heroImage = '/
             transition: { duration: 1.1, delay: 0.25, ease: EASE_SOFT_OUT },
           }}
           className="w-full object-cover"
+          width={1920}
+          height={1080}
         />
 
         {ICON_CONFIG.map((icon, index) => (
@@ -224,7 +230,11 @@ const TempHero = ({ groomName = 'Abhishek', brideName = 'Kanika', heroImage = '/
             transition: { duration: 1.1, delay: 0.4, ease: EASE_SOFT_OUT },
           }}
         >
-          {groomName} <span className="opacity-55 leading-6"><br /> Weds</span><br />  {brideName}
+          {groomName}{" "}
+          <span className="opacity-55 leading-6">
+            <br /> Weds
+          </span>
+          <br /> {brideName}
         </motion.h1>
       </motion.div>
     </section>
