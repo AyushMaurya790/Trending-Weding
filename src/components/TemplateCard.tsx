@@ -20,15 +20,12 @@ export default function TemplateCard({ template }: TemplateCardProps) {
 
   const handleEditClick = async () => {
     console.log('Edit button clicked!');
-    
-    // DEVELOPMENT MODE: Simplified flow
     if (!session) {
       console.log('No session, redirecting to login');
       router.push('/login');
       return;
     }
     
-    console.log('Creating/fetching draft for template:', template._id);
     
     try {
       const response = await fetch('/api/invites/create-draft', {

@@ -22,8 +22,7 @@ interface InviteData {
   heroImage: string;
   shlok: string;
   blessingsText: string;
-  groomGrandparents: string;
-  brideGrandparents: string;
+  grandparents: string;
   groomParents: string;
   brideParents: string;
   inviteText: string;
@@ -96,8 +95,7 @@ export default function PublicInvite() {
       <InviteSection 
         shlok={inviteData.shlok || 'ॐ श्री गणेशाय नम'}
         blessingsText={inviteData.blessingsText || 'With the heavenly blessings of'}
-        groomGrandparents={inviteData.groomGrandparents || 'Smt. Lata Devi & Sm. Kamal Kapoor'}
-        brideGrandparents={inviteData.brideGrandparents || ''}
+        grandparents={inviteData.grandparents || 'Smt. Lata Devi & Sm. Kamal Kapoor'}
         groomParents={inviteData.groomParents || 'Mrs. Reena & Mr. Rajiv Kapoor'}
         brideParents={inviteData.brideParents || 'Mrs. Reena & Mr. Rajiv Kapoor'}
         inviteText={inviteData.inviteText || 'You to join us in the wedding celebrations of'}

@@ -7,6 +7,9 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import TempHero from '@/components/tempHero';
 import InviteSection from '@/components/inviteSection';
 import EventShow from '@/components/EventShow';
+import ImageSection from '@/components/ImageSection';
+import SubDetails from '@/components/SubDetails';
+import EndDetails from '@/components/EndDetails';
 
 dayjs.extend(relativeTime);
 
@@ -32,8 +35,7 @@ interface InviteData {
   heroImage: string;
   shlok: string;
   blessingsText: string;
-  groomGrandparents: string;
-  brideGrandparents: string;
+  grandparents: string;
   groomParents: string;
   brideParents: string;
   inviteText: string;
@@ -70,8 +72,7 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
     heroImage: '/assets/couple.png',
     shlok: 'ॐ श्री गणेशाय नम',
     blessingsText: 'With the heavenly blessings of',
-    groomGrandparents: 'Smt. Lata Devi & Sm. Kamal Kapoor',
-    brideGrandparents: '',
+    grandparents: 'Smt. Lata Devi & Sm. Kamal Kapoor',
     groomParents: 'Mrs. Reena & Mr. Rajiv Kapoor',
     brideParents: 'Mrs. Reena & Mr. Rajiv Kapoor',
     inviteText: 'You to join us in the wedding celebrations of',
@@ -85,7 +86,7 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
     mapSectionText: 'See the route',
     mapClickText: 'Click to open the map',
     images: [],
-    whatsappLink: '',
+    whatsappLink: `https://wa.me/`,
     socialLinks: [{ platform: '', url: '' }],
     counterDate: '',
     extraField1: '',
@@ -131,8 +132,7 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
           heroImage: data.heroImage || '/assets/couple.png',
           shlok: data.shlok || 'ॐ श्री गणेशाय नम',
           blessingsText: data.blessingsText || 'With the heavenly blessings of',
-          groomGrandparents: data.groomGrandparents || 'Smt. Lata Devi & Sm. Kamal Kapoor',
-          brideGrandparents: data.brideGrandparents || '',
+          grandparents: data.grandparents || 'Smt. Lata Devi & Sm. Kamal Kapoor',
           groomParents: data.groomParents || 'Mrs. Reena & Mr. Rajiv Kapoor',
           brideParents: data.brideParents || 'Mrs. Reena & Mr. Rajiv Kapoor',
           inviteText: data.inviteText || 'You to join us in the wedding celebrations of',
@@ -155,6 +155,7 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
           extraField4: data.extraField4 || '',
           slug: data.slug || '',
         });
+        console.log('Invite data loaded:', data);
       } else {
         const errorData = await response.json();
         console.error('Fetch failed with status:', response.status, errorData);
@@ -195,8 +196,6 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
   const handleEventChange = (index: number, field: keyof Event, value: string) => {
     const newEvents = [...inviteData.events];
     newEvents[index] = { ...newEvents[index], [field]: value };
-    
-    // Auto-populate weekday when date changes
     if (field === 'date' && value) {
       const weekDay = dayjs(value).format('dddd');
       newEvents[index].weekDay = weekDay;
@@ -251,8 +250,6 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
-
-    // Limit to 10 images
     if (inviteData.images.length + files.length > 10) {
       alert('Maximum 10 images allowed');
       return;
@@ -345,8 +342,8 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
       </div>
 
       <div className=" mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="space-y-6 overflow-y-auto max-h-[calc(100vh-120px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-[20%_80%] gap-8">
+          <div className="space-y-6 ">
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-bold mb-4 text-primary">Hero Section</h2>
               <div className="space-y-4">
@@ -401,24 +398,13 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
                 </div>
 
                 <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Groom Grandparents</label>
+                  <label className="block text-gray-700 mb-2 font-medium">Grandparents</label>
                   <input
                     type="text"
-                    value={inviteData.groomGrandparents}
-                    onChange={(e) => handleInputChange('groomGrandparents', e.target.value)}
+                    value={inviteData.grandparents}
+                    onChange={(e) => handleInputChange('grandparents', e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="e.g., Smt. Lata Devi & Sm. Kamal Kapoor"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Bride Grandparents</label>
-                  <input
-                    type="text"
-                    value={inviteData.brideGrandparents}
-                    onChange={(e) => handleInputChange('brideGrandparents', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Optional"
                   />
                 </div>
 
@@ -767,11 +753,11 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
               </div>
             </div>
           </div>
-          <div className="lg:sticky lg:top-24 h-fit">
+          <div className="lg:sticky lg:top-24">
             <div className="bg-white rounded-lg shadow-lg p-4">
               <h2 className="text-xl font-bold mb-4 text-center">Live Preview</h2>
               <div className="border border-gray-300 rounded-lg overflow-hidden bg-gray-50">
-                <div className="scale-50 origin-top-left" style={{ width: '200%', height: 'auto' }}>
+                <div >
                   <TempHero 
                     groomName={inviteData.heroGroomName}
                     brideName={inviteData.heroBrideName}
@@ -780,8 +766,7 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
                   <InviteSection 
                     shlok={inviteData.shlok}
                     blessingsText={inviteData.blessingsText}
-                    groomGrandparents={inviteData.groomGrandparents}
-                    brideGrandparents={inviteData.brideGrandparents}
+                    grandparents={inviteData.grandparents}
                     groomParents={inviteData.groomParents}
                     brideParents={inviteData.brideParents}
                     inviteText={inviteData.inviteText}
@@ -797,10 +782,16 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
                     mapSectionText={inviteData.mapSectionText}
                     mapClickText={inviteData.mapClickText}
                   />
+                  <ImageSection 
+                    whatsappLink={inviteData.socialLinks}
+                    images={inviteData.images}
+                  />
+                  <SubDetails />
+                  <EndDetails/>
                 </div>
               </div>
               <p className="text-xs text-gray-500 mt-4 text-center">
-                Changes auto-save every 5 seconds. Click &quot;Save Now&quot; to save immediately.
+                Changes auto-save every 5 seconds. Click &quot;Save Now&quot; to save immediately
               </p>
             </div>
           </div>

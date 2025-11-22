@@ -22,8 +22,7 @@ export interface IInvite {
   heroBrideName: string; 
   shlok: string;
   blessingsText: string;
-  groomGrandparents: string; 
-  brideGrandparents: string; 
+  grandparents: string; 
   groomParents: string; 
   brideParents: string; 
   inviteText: string; 
@@ -88,13 +87,9 @@ const InviteSchema = new Schema<IInvite>(
       type: String,
       default: 'With the heavenly blessings of',
     },
-    groomGrandparents: {
+    grandparents: {
       type: String,
       default: 'Smt. Lata Devi & Sm. Kamal Kapoor',
-    },
-    brideGrandparents: {
-      type: String,
-      default: '',
     },
     groomParents: {
       type: String,

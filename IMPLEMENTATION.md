@@ -20,7 +20,6 @@ Implemented a complete dynamic template editing system where users can:
 - **Props**: 
   - `shlok` - Sacred text (ॐ श्री गणेशाय नम)
   - `blessingsText` - Blessings header
-  - `groomGrandparents`, `brideGrandparents`
   - `groomParents`, `brideParents`
   - `inviteText` - Invitation message
   - `daughterOfText` - Relationship text

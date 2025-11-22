@@ -8,8 +8,7 @@ const EASE_SOFT_OUT = [0.16, 1, 0.3, 1] as const;
 interface InviteSectionProps {
   shlok?: string;
   blessingsText?: string;
-  groomGrandparents?: string;
-  brideGrandparents?: string;
+  grandparents?: string;
   groomParents?: string;
   brideParents?: string;
   inviteText?: string;
@@ -23,8 +22,7 @@ interface InviteSectionProps {
 const InviteSection = ({
   shlok = 'ॐ श्री गणेशाय नम',
   blessingsText = 'With the heavenly blessings of',
-  groomGrandparents = 'Smt. Lata Devi & Sm. Kamal Kapoor',
-  brideGrandparents = '',
+  grandparents = 'Smt. Lata Devi & Sm. Kamal Kapoor',
   groomParents = 'Mrs. Reena & Mr. Rajiv Kapoor',
   brideParents = 'Mrs. Reena & Mr. Rajiv Kapoor',
   inviteText = 'You to join us in the wedding celebrations of',
@@ -65,7 +63,7 @@ const InviteSection = ({
         font-Jacques-plain  text-sm md:text-[42px] leading-[150%] absolute top-3/18 md:top-3/18 left-1/2 -translate-x-1/2 w-full text-center "
       >
         {blessingsText} <br />
-        {groomGrandparents} {brideGrandparents && <><br /> and <br /> {brideGrandparents}</>}
+        {grandparents}
         {(groomParents || brideParents) && <> <br /> and <br /></>}
         {groomParents && brideParents ? `${brideParents} & ${groomParents}` : (groomParents || brideParents)}
       </p>
