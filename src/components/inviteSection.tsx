@@ -9,7 +9,6 @@ interface InviteSectionProps {
   grandparents?: string;
   groomParents?: string;
   brideParents?: string;
-  inviteText?: string;
   daughterOfText?: string;
   coupleName1?: string;
   coupleName2?: string;
@@ -21,7 +20,6 @@ const InviteSection = ({
   grandparents = 'Smt. Lata Devi & Sm. Kamal Kapoor',
   groomParents = 'Mrs. Reena & Mr. Rajiv Kapoor',
   brideParents = 'Mrs. Reena & Mr. Rajiv Kapoor',
-  inviteText = 'You to join us in the wedding celebrations of',
   daughterOfText = 'Daughter of',
   coupleName1 = 'Abhishek',
   coupleName2 = 'Anjali',
@@ -73,7 +71,7 @@ const InviteSection = ({
         className="
         font-Jacques-plain text-sm md:text-[42px] leading-[150%] absolute top-9/20 md:top-8/18 left-1/2 -translate-x-1/2 text-center w-full"
       >
-        {inviteText} <br />
+         You to join us in the wedding celebrations of <br />
         <p className="md:mt-8 mt-4">
           {daughterOfText} <br />
         {brideParents}

@@ -32,7 +32,6 @@ interface InviteData {
   grandparents: string;
   groomParents: string;
   brideParents: string;
-  inviteText: string;
   daughterOfText: string;
   coupleName1: string;
   coupleName2: string;
@@ -108,7 +107,6 @@ export default function PublicInvite({ params }: { params: Promise<{ slug: strin
         grandparents={inviteData.grandparents || 'Smt. Lata Devi & Sm. Kamal Kapoor'}
         groomParents={inviteData.groomParents || 'Mrs. Reena & Mr. Rajiv Kapoor'}
         brideParents={inviteData.brideParents || 'Mrs. Reena & Mr. Rajiv Kapoor'}
-        inviteText={inviteData.inviteText || 'You to join us in the wedding celebrations of'}
         daughterOfText={inviteData.daughterOfText || 'Daughter of'}
         coupleName1={inviteData.coupleName1 || 'Abhishek'}
         coupleName2={inviteData.coupleName2 || 'Anjali'}

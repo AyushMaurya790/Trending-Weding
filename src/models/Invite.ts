@@ -23,7 +23,6 @@ export interface IInvite {
   grandparents: string; 
   groomParents: string; 
   brideParents: string; 
-  inviteText: string; 
   daughterOfText: string; 
   coupleName1: string; 
   coupleName2: string; 
@@ -81,10 +80,6 @@ const InviteSchema = new Schema<IInvite>(
     brideParents: {
       type: String,
       default: 'Mrs. Reena & Mr. Rajiv Kapoor',
-    },
-    inviteText: {
-      type: String,
-      default: 'You to join us in the wedding celebrations of',
     },
     daughterOfText: {
       type: String,

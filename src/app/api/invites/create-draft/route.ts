@@ -42,7 +42,6 @@ export async function POST(req: NextRequest) {
       grandparents: 'Smt. Lata Devi & Sm. Kamal Kapoor',
       groomParents: 'Mrs. Reena & Mr. Rajiv Kapoor',
       brideParents: 'Mrs. Reena & Mr. Rajiv Kapoor',
-      inviteText: 'You to join us in the wedding celebrations of',
       daughterOfText: 'Daughter of',
       coupleName1: 'Abhishek',
       coupleName2: 'Anjali',

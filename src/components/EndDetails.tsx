@@ -66,21 +66,15 @@ const EndDetails = ({ counterDate, locationLink, socialLinks }: EndDetailsProps)
       <div className="flex justify-between w-full max-w-3xl md:top-4/12 top-4/20 absolute left-1/2 -translate-x-1/2">
         <div className="flex flex-col items-center gap-2 md:max-w-xs mx-auto">
           <h2 className="md:text-3xl text-xl">Links</h2>
-          {locationLink && (
             <a href={locationLink} target="_blank" rel="noopener noreferrer" className="md:text-xl text-sm hover:underline">
               Venue location
             </a>
-          )}
-          {whatsappLink && (
             <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="md:text-xl text-sm hover:underline">
               RSVP
             </a>
-          )}
-          {instagramLink && (
             <a href={instagramLink} target="_blank" rel="noopener noreferrer" className="md:text-xl text-sm hover:underline">
               Instagram
             </a>
-          )}
         </div>
 
         <div className="flex flex-col items-center gap-2 md:max-w-xs mx-auto">
