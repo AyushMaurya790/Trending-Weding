@@ -1,9 +1,13 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import axios from 'axios';
 import TempHero from '@/components/tempHero';
 import InviteSection from '@/components/inviteSection';
 import EventShow from '@/components/EventShow';
+import ImageSection from '@/components/ImageSection';
+import SubDetails from '@/components/SubDetails';
+import EndDetails from '@/components/EndDetails';
 
 interface Event {
   eventName: string;
@@ -14,6 +18,11 @@ interface Event {
   venue?: string;
   time?: string;
   img?: string;
+}
+
+interface SocialLink {
+  platform: string;
+  url: string;
 }
 
 interface InviteData {
@@ -35,7 +44,13 @@ interface InviteData {
   eventsSectionTitle: string;
   mapSectionText: string;
   mapClickText: string;
+  images: string[];
+  socialLinks: SocialLink[];
   counterDate: string;
+  locationLink?: string;
+  temprature?: string;
+  staffDetails?: string;
+  parkingDetails?: string;
 }
 
 export default function PublicInvite() {
@@ -50,11 +65,8 @@ export default function PublicInvite() {
 
   const fetchInvite = async () => {
     try {
-      const response = await fetch(`/api/invites/slug/${slug}`);
-      if (response.ok) {
-        const data = await response.json();
-        setInviteData(data);
-      }
+      const { data } = await axios.get(`/api/invites/slug/${slug}`);
+      setInviteData(data);
     } catch (error) {
       console.error('Error fetching invite:', error);
     } finally {
@@ -86,7 +98,6 @@ export default function PublicInvite() {
 
   return (
     <div className="min-h-screen bg-gray-50 overflow-hidden">
-      {/* Render the actual template components with user's data */}
       <TempHero 
         groomName={inviteData.heroGroomName || 'Abhishek'}
         brideName={inviteData.heroBrideName || 'Kanika'}
@@ -110,6 +121,21 @@ export default function PublicInvite() {
         eventsSectionTitle={inviteData.eventsSectionTitle || 'On the following events'}
         mapSectionText={inviteData.mapSectionText || 'See the route'}
         mapClickText={inviteData.mapClickText || 'Click to open the map'}
+      />
+      <ImageSection 
+        whatsappLink={inviteData.socialLinks || []}
+        images={inviteData.images || []}
+      />
+      <SubDetails 
+        socialLinks={inviteData.socialLinks || []}
+        temprature={inviteData.temprature}
+        staffDetails={inviteData.staffDetails}
+        parkingDetails={inviteData.parkingDetails}
+      />
+      <EndDetails 
+        counterDate={inviteData.counterDate || ''}
+        locationLink={inviteData.locationLink}
+        socialLinks={inviteData.socialLinks || []}
       />
     </div>
   );

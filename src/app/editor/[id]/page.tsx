@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import TempHero from '@/components/tempHero';
@@ -131,51 +132,44 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
     if (!inviteId) return;
     
     try {
-      const response = await fetch(`/api/invites/${inviteId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setInviteData({
-          heroGroomName: data.heroGroomName || 'Abhishek',
-          heroBrideName: data.heroBrideName || 'Kanika',
-          heroImage: data.heroImage || '/assets/couple.png',
-          shlok: data.shlok || 'ॐ श्री गणेशाय नम',
-          blessingsText: data.blessingsText || 'With the heavenly blessings of',
-          grandparents: data.grandparents || 'Smt. Lata Devi & Sm. Kamal Kapoor',
-          groomParents: data.groomParents || 'Mrs. Reena & Mr. Rajiv Kapoor',
-          brideParents: data.brideParents || 'Mrs. Reena & Mr. Rajiv Kapoor',
-          inviteText: data.inviteText || 'You to join us in the wedding celebrations of',
-          daughterOfText: data.daughterOfText || 'Daughter of',
-          coupleName1: data.coupleName1 || 'Abhishek',
-          coupleName2: data.coupleName2 || 'Anjali',
-          weddingDate: data.weddingDate || 'Saturday, 21 June 2035',
-          weddingVenue: data.weddingVenue || '123 Anywhere St., City, ST 12345',
-          events: data.events?.length > 0 ? data.events : [],
-          eventsSectionTitle: data.eventsSectionTitle || 'On the following events',
-          mapSectionText: data.mapSectionText || 'See the route',
-          mapClickText: data.mapClickText || 'Click to open the map',
-          images: data.images || [],
-          whatsappLink: data.whatsappLink || '',
-          socialLinks: data.socialLinks?.length > 0 ? data.socialLinks : [{ platform: '', url: '' }],
-          counterDate: data.counterDate || '',
-          temprature: data.temprature || '',
-          staffDetails: data.staffDetails || '',
-          parkingDetails: data.parkingDetails || '',
-          locationLink: data.locationLink || '',
-          extraField1: data.extraField1 || '',
-          extraField2: data.extraField2 || '',
-          extraField3: data.extraField3 || '',
-          extraField4: data.extraField4 || '',
-          slug: data.slug || '',
-        });
-        console.log('Invite data loaded:', data);
-      } else {
-        const errorData = await response.json();
-        console.error('Fetch failed with status:', response.status, errorData);
-        alert(`Failed to load invite: ${errorData.error || 'Unknown error'}`);
-      }
+      const { data } = await axios.get(`/api/invites/${inviteId}`);
+      setInviteData({
+        heroGroomName: data.heroGroomName || 'Abhishek',
+        heroBrideName: data.heroBrideName || 'Kanika',
+        heroImage: data.heroImage || '/assets/couple.png',
+        shlok: data.shlok || 'ॐ श्री गणेशाय नम',
+        blessingsText: data.blessingsText || 'With the heavenly blessings of',
+        grandparents: data.grandparents || 'Smt. Lata Devi & Sm. Kamal Kapoor',
+        groomParents: data.groomParents || 'Mrs. Reena & Mr. Rajiv Kapoor',
+        brideParents: data.brideParents || 'Mrs. Reena & Mr. Rajiv Kapoor',
+        inviteText: data.inviteText || 'You to join us in the wedding celebrations of',
+        daughterOfText: data.daughterOfText || 'Daughter of',
+        coupleName1: data.coupleName1 || 'Abhishek',
+        coupleName2: data.coupleName2 || 'Anjali',
+        weddingDate: data.weddingDate || 'Saturday, 21 June 2035',
+        weddingVenue: data.weddingVenue || '123 Anywhere St., City, ST 12345',
+        events: data.events?.length > 0 ? data.events : [],
+        eventsSectionTitle: data.eventsSectionTitle || 'On the following events',
+        mapSectionText: data.mapSectionText || 'See the route',
+        mapClickText: data.mapClickText || 'Click to open the map',
+        images: data.images || [],
+        whatsappLink: data.whatsappLink || '',
+        socialLinks: data.socialLinks?.length > 0 ? data.socialLinks : [{ platform: '', url: '' }],
+        counterDate: data.counterDate || '',
+        temprature: data.temprature || '',
+        staffDetails: data.staffDetails || '',
+        parkingDetails: data.parkingDetails || '',
+        locationLink: data.locationLink || '',
+        extraField1: data.extraField1 || '',
+        extraField2: data.extraField2 || '',
+        extraField3: data.extraField3 || '',
+        extraField4: data.extraField4 || '',
+        slug: data.slug || '',
+      });
+      console.log('Invite data loaded:', data);
     } catch (error) {
       console.error('Error fetching invite:', error);
-      alert('Network error while fetching invite. Check console.');
+      alert('Failed to load invite. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -186,16 +180,11 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
     
     setSaving(true);
     try {
-      await fetch(`/api/invites/${inviteId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(inviteData),
-      });
+      await axios.put(`/api/invites/${inviteId}`, inviteData);
       setLastSaved(new Date());
     } catch (error) {
       console.error('Error saving invite:', error);
+      alert('Failed to save. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -279,19 +268,8 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
         const formData = new FormData();
         formData.append('file', file);
 
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          uploadedUrls.push(data.url);
-        } else {
-          const errorData = await response.json();
-          console.error('Upload failed:', errorData);
-          alert(`Upload failed: ${errorData.error || 'Unknown error'}`);
-        }
+        const { data } = await axios.post('/api/upload', formData);
+        uploadedUrls.push(data.url);
       }
 
       setInviteData((prev) => ({
@@ -300,7 +278,7 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
       }));
     } catch (error) {
       console.error('Error uploading images:', error);
-      alert('Failed to upload images. Please check your internet connection.');
+      alert('Failed to upload images. Please check your connection.');
     } finally {
       setUploadingImage(false);
     }
@@ -320,22 +298,11 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setInviteData((prev) => ({ ...prev, heroImage: data.url }));
-      } else {
-        const errorData = await response.json();
-        console.error('Upload failed:', errorData);
-        alert(`Upload failed: ${errorData.error || 'Unknown error'}`);
-      }
+      const { data } = await axios.post('/api/upload', formData);
+      setInviteData((prev) => ({ ...prev, heroImage: data.url }));
     } catch (error) {
       console.error('Error uploading hero image:', error);
-      alert('Failed to upload image. Please check your internet connection.');
+      alert('Failed to upload image. Please check your connection.');
     } finally {
       setUploadingImage(false);
     }
