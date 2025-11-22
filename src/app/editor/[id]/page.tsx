@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import TempHero from '@/components/tempHero';
@@ -169,7 +170,7 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
       console.log('Invite data loaded:', data);
     } catch (error) {
       console.error('Error fetching invite:', error);
-      alert('Failed to load invite. Please try again.');
+      toast.error('Failed to load invite. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -182,9 +183,10 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
     try {
       await axios.put(`/api/invites/${inviteId}`, inviteData);
       setLastSaved(new Date());
+      toast.success('Saved successfully');
     } catch (error) {
       console.error('Error saving invite:', error);
-      alert('Failed to save. Please try again.');
+      toast.error('Failed to save. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -207,7 +209,7 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
 
   const addEvent = () => {
     if (inviteData.events.length >= 6) {
-      alert('Maximum 6 events allowed');
+      toast.error('Maximum 6 events allowed');
       return;
     }
     setInviteData((prev) => ({
@@ -256,7 +258,7 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
     const files = e.target.files;
     if (!files || files.length === 0) return;
     if (inviteData.images.length + files.length > 6) {
-      alert('Maximum 6 images allowed for carousel');
+      toast.error('Maximum 6 images allowed for carousel');
       return;
     }
 
@@ -276,9 +278,10 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
         ...prev,
         images: [...prev.images, ...uploadedUrls],
       }));
+      toast.success(`${uploadedUrls.length} image(s) uploaded successfully`);
     } catch (error) {
       console.error('Error uploading images:', error);
-      alert('Failed to upload images. Please check your connection.');
+      toast.error('Failed to upload images. Please check your connection.');
     } finally {
       setUploadingImage(false);
     }
@@ -300,9 +303,10 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
 
       const { data } = await axios.post('/api/upload', formData);
       setInviteData((prev) => ({ ...prev, heroImage: data.url }));
+      toast.success('Hero image uploaded successfully');
     } catch (error) {
       console.error('Error uploading hero image:', error);
-      alert('Failed to upload image. Please check your connection.');
+      toast.error('Failed to upload image. Please check your connection.');
     } finally {
       setUploadingImage(false);
     }
@@ -311,7 +315,7 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
   const copyShareLink = () => {
     const shareUrl = `${window.location.origin}/invite/${inviteData.slug}`;
     navigator.clipboard.writeText(shareUrl);
-    alert('Share link copied to clipboard!');
+    toast.success('Share link copied to clipboard!');
   };
 
   if (loading) {

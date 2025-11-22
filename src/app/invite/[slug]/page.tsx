@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import TempHero from '@/components/tempHero';
 import InviteSection from '@/components/inviteSection';
 import EventShow from '@/components/EventShow';
@@ -53,14 +53,19 @@ interface InviteData {
   parkingDetails?: string;
 }
 
-export default function PublicInvite() {
-  const params = useParams();
-  const slug = params.slug as string;
+export default function PublicInvite({ params }: { params: Promise<{ slug: string }> }) {
+  const [slug, setSlug] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [inviteData, setInviteData] = useState<InviteData | null>(null);
 
   useEffect(() => {
-    fetchInvite();
+    params.then((p) => setSlug(p.slug));
+  }, [params]);
+
+  useEffect(() => {
+    if (slug) {
+      fetchInvite();
+    }
   }, [slug]);
 
   const fetchInvite = async () => {
@@ -69,6 +74,7 @@ export default function PublicInvite() {
       setInviteData(data);
     } catch (error) {
       console.error('Error fetching invite:', error);
+      toast.error('Failed to load invitation');
     } finally {
       setLoading(false);
     }
