@@ -1,8 +1,8 @@
-'use client';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+"use client";
+import Link from "next/link";
+import Image from "next/image";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface TemplateCardProps {
   template: {
@@ -11,6 +11,7 @@ interface TemplateCardProps {
     description: string;
     imageUrl: string;
     price: number;
+    slug?: string;
   };
 }
 
@@ -19,19 +20,18 @@ export default function TemplateCard({ template }: TemplateCardProps) {
   const router = useRouter();
 
   const handleEditClick = async () => {
-    console.log('Edit button clicked!');
+    console.log("Edit button clicked!");
     if (!session) {
-      console.log('No session, redirecting to login');
-      router.push('/login');
+      console.log("No session, redirecting to login");
+      router.push("/login");
       return;
     }
-    
-    
+
     try {
-      const response = await fetch('/api/invites/create-draft', {
-        method: 'POST',
+      const response = await fetch("/api/invites/create-draft", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           templateId: template._id,
@@ -42,23 +42,23 @@ export default function TemplateCard({ template }: TemplateCardProps) {
         router.push(`/editor/${invite._id}`);
       } else {
         const errorData = await response.json();
-        console.error('Failed to create/get draft:', errorData);
+        console.error("Failed to create/get draft:", errorData);
       }
     } catch (error) {
-      console.error('Edit error:', error);
+      console.error("Edit error:", error);
     }
   };
 
   const handleBuyClick = async () => {
     if (!session) {
-      router.push('/login');
+      router.push("/login");
       return;
     }
     try {
-      const response = await fetch('/api/payment/mock', {
-        method: 'POST',
+      const response = await fetch("/api/payment/mock", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           templateId: template._id,
@@ -70,8 +70,8 @@ export default function TemplateCard({ template }: TemplateCardProps) {
         router.push(`/editor/${data.inviteId}`);
       }
     } catch (error) {
-      console.error('Payment error:', error);
-      alert('Payment failed. Please try again.');
+      console.error("Payment error:", error);
+      alert("Payment failed. Please try again.");
     }
   };
 
@@ -90,16 +90,18 @@ export default function TemplateCard({ template }: TemplateCardProps) {
         <h3 className="text-2xl font-bold mb-2">{template.title}</h3>
         <p className="text-gray-600 mb-4">{template.description}</p>
         <div className="flex items-center justify-between mb-4">
-          <span className="text-2xl font-bold text-primary">₹{template.price}</span>
+          <span className="text-2xl font-bold text-primary">
+            ₹{template.price}
+          </span>
         </div>
         <div className="flex gap-3">
           <Link
-            href={`/template/${template._id}`}
+            href={`/template/${template.slug}`}
             className="flex-1 bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-center hover:bg-gray-300 transition"
           >
             View Demo
           </Link>
-           <button
+          <button
             onClick={handleEditClick}
             className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg text-center hover:bg-blue-600 transition"
           >

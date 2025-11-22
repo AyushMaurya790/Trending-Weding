@@ -1,7 +1,8 @@
-'use client';
-import { useEffect, useState } from 'react';
-import TemplateCard from '@/components/TemplateCard';
-import AnimationWrapper from '@/components/AnimationWrapper';
+"use client";
+import { useEffect, useState } from "react";
+import TemplateCard from "@/components/TemplateCard";
+import AnimationWrapper from "@/components/AnimationWrapper";
+import axios from "axios";
 
 interface TemplateData {
   _id: string;
@@ -18,43 +19,44 @@ export default function Template() {
   useEffect(() => {
     fetchTemplates();
   }, []);
- const template=([
-          {
-            _id: '1',
-            title: 'Classic Elegance',
-            description: 'A timeless design for your special day.',
-            imageUrl: '/assets/1.avif',
-            price: 1999,
-          },
-          {
-            _id: '2',
-            title: 'Modern Minimalist',
-            description: 'Sleek and simple, yet profoundly beautiful.',
-            imageUrl: '/assets/1.avif',
-            price: 2499,
-          },
-          {
-            _id: '3',
-            title: 'Floral Fantasy',
-            description: 'Embrace the beauty of nature with vibrant florals.',
-            imageUrl: '/assets/1.avif',
-            price: 2999,
-          },
-          {
-            _id: '4',
-            title: 'Royal Heritage',
-            description: 'Traditional designs with a regal touch.',
-            imageUrl: '/assets/1.avif',
-            price: 3499,
-          },
-        ]);
+  const template = [
+    {
+      _id: "1",
+      title: "Classic Elegance",
+      description: "A timeless design for your special day.",
+      imageUrl: "/assets/1.avif",
+      price: 1999,
+      slug: "classic",
+    },
+    {
+      _id: "2",
+      title: "Modern Minimalist",
+      description: "Sleek and simple, yet profoundly beautiful.",
+      imageUrl: "/assets/1.avif",
+      slug: "floral",
+      price: 2499,
+    },
+    {
+      _id: "3",
+      title: "Floral Fantasy",
+      description: "Embrace the beauty of nature with vibrant florals.",
+      imageUrl: "/assets/1.avif",
+      price: 2999,
+    },
+    {
+      _id: "4",
+      title: "Royal Heritage",
+      description: "Traditional designs with a regal touch.",
+      imageUrl: "/assets/1.avif",
+      price: 3499,
+    },
+  ];
   const fetchTemplates = async () => {
     try {
-      const response = await fetch('/api/templates');
-       const data = await response.json();
-       setTemplates(data);
+      const response = await axios.get("/api/templates");
+      setTemplates(response.data);
     } catch (error) {
-      console.error('Error fetching templates:', error);
+      console.error("Error fetching templates:", error);
     } finally {
       setLoading(false);
     }
@@ -70,7 +72,8 @@ export default function Template() {
                 Wedding Invitation Templates
               </h1>
               <p className="text-xl">
-                Choose from our beautiful collection of professionally designed templates
+                Choose from our beautiful collection of professionally designed
+                templates
               </p>
             </div>
           </AnimationWrapper>
