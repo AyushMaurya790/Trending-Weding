@@ -28,7 +28,7 @@ const items = [
 ];
 const SubDetails = () => {
   return (
-    <section className="w-full relative text-[#5B78A6] font-Jacques-plain">
+    <section className="w-full relative text-[#5B78A6] font-Jacques-plain overflow-hidden">
       <Image
         src="/assets/img/event/eventDetails.png"
         alt="wedding-photo"
