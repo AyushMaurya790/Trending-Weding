@@ -19,9 +19,6 @@ interface Event {
 
 interface EventShowProps {
   events?: Event[];
-  eventsSectionTitle?: string;
-  mapSectionText?: string;
-  mapClickText?: string;
   mapLink?: string;
 }
 
@@ -78,9 +75,6 @@ const defaultEvents = [
 
 const EventShow = ({
   events = defaultEvents,
-  eventsSectionTitle = 'On the following events',
-  mapSectionText = 'See the route',
-  mapClickText = 'Click to open the map',
   mapLink = '#',
 }: EventShowProps) => {
   const displayEvents = events.length > 0 && events[0].eventName ? events : defaultEvents;
@@ -136,7 +130,7 @@ const EventShow = ({
         </motion.div>
       ))}
       <p className="font-Jacques-plain md:text-5xl text-sm text-[#BD8C1C] text-center absolute  left-1/2  -translate-x-1/2 md:top-[330px] top-[70px]">
-        {eventsSectionTitle}
+        On the following events
       </p>
 
       <div className="absolute  font-Jacques-plain  left-3/6 -translate-x-1/2 md:top-[620px] top-30 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-20 gap-5 place-items-center">
@@ -174,8 +168,8 @@ const EventShow = ({
         ))}
       </div>
       <p className="font-Jacques-plain md:text-5xl text-xl text-[#BD8C1C] text-center absolute left-1/2 -translate-x-1/2 md:top-12/18 top-17/20">
-        {mapSectionText} <br /> <br />
-        <span className="md:text-2xl text-xs">{mapClickText}</span>
+        See the <br /> route <br />
+        <span className="md:text-2xl text-xs">Click to open the map</span>
         <br />
       </p>
       <motion.a

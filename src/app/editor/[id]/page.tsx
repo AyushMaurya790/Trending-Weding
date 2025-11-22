@@ -35,8 +35,6 @@ interface InviteData {
   heroGroomName: string;
   heroBrideName: string;
   heroImage: string;
-  shlok: string;
-  blessingsText: string;
   grandparents: string;
   groomParents: string;
   brideParents: string;
@@ -47,9 +45,6 @@ interface InviteData {
   weddingDate: string;
   weddingVenue: string;
   events: Event[];
-  eventsSectionTitle: string;
-  mapSectionText: string;
-  mapClickText: string;
   images: string[];
   whatsappLink: string;
   socialLinks: SocialLink[];
@@ -58,10 +53,6 @@ interface InviteData {
   staffDetails?: string;
   parkingDetails?: string;
   locationLink?: string;
-  extraField1: string;
-  extraField2: string;
-  extraField3: string;
-  extraField4: string;
   slug: string;
 }
 
@@ -76,8 +67,6 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
     heroGroomName: 'Abhishek',
     heroBrideName: 'Kanika',
     heroImage: '/assets/couple.png',
-    shlok: 'ॐ श्री गणेशाय नम',
-    blessingsText: 'With the heavenly blessings of',
     grandparents: 'Smt. Lata Devi & Sm. Kamal Kapoor',
     groomParents: 'Mrs. Reena & Mr. Rajiv Kapoor',
     brideParents: 'Mrs. Reena & Mr. Rajiv Kapoor',
@@ -88,9 +77,6 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
     weddingDate: 'Saturday, 21 June 2035',
     weddingVenue: '123 Anywhere St., City, ST 12345',
     events: [],
-    eventsSectionTitle: 'On the following events',
-    mapSectionText: 'See the route',
-    mapClickText: 'Click to open the map',
     images: [],
     whatsappLink: `https://wa.me/`,
     socialLinks: [{ platform: '', url: '' }],
@@ -99,10 +85,6 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
     staffDetails: '',
     parkingDetails: '',
     locationLink: '',
-    extraField1: '',
-    extraField2: '',
-    extraField3: '',
-    extraField4: '',
     slug: '',
   });
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -138,8 +120,6 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
         heroGroomName: data.heroGroomName || 'Abhishek',
         heroBrideName: data.heroBrideName || 'Kanika',
         heroImage: data.heroImage || '/assets/couple.png',
-        shlok: data.shlok || 'ॐ श्री गणेशाय नम',
-        blessingsText: data.blessingsText || 'With the heavenly blessings of',
         grandparents: data.grandparents || 'Smt. Lata Devi & Sm. Kamal Kapoor',
         groomParents: data.groomParents || 'Mrs. Reena & Mr. Rajiv Kapoor',
         brideParents: data.brideParents || 'Mrs. Reena & Mr. Rajiv Kapoor',
@@ -150,9 +130,6 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
         weddingDate: data.weddingDate || 'Saturday, 21 June 2035',
         weddingVenue: data.weddingVenue || '123 Anywhere St., City, ST 12345',
         events: data.events?.length > 0 ? data.events : [],
-        eventsSectionTitle: data.eventsSectionTitle || 'On the following events',
-        mapSectionText: data.mapSectionText || 'See the route',
-        mapClickText: data.mapClickText || 'Click to open the map',
         images: data.images || [],
         whatsappLink: data.whatsappLink || '',
         socialLinks: data.socialLinks?.length > 0 ? data.socialLinks : [{ platform: '', url: '' }],
@@ -161,10 +138,6 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
         staffDetails: data.staffDetails || '',
         parkingDetails: data.parkingDetails || '',
         locationLink: data.locationLink || '',
-        extraField1: data.extraField1 || '',
-        extraField2: data.extraField2 || '',
-        extraField3: data.extraField3 || '',
-        extraField4: data.extraField4 || '',
         slug: data.slug || '',
       });
       console.log('Invite data loaded:', data);
@@ -409,27 +382,6 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-bold mb-4 text-primary">Invitation Details</h2>
               <div className="space-y-4">
-                <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Shlok / Sacred Text</label>
-                  <input
-                    type="text"
-                    value={inviteData.shlok}
-                    onChange={(e) => handleInputChange('shlok', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="e.g., ॐ श्री गणेशाय नम"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Blessings Text</label>
-                  <input
-                    type="text"
-                    value={inviteData.blessingsText}
-                    onChange={(e) => handleInputChange('blessingsText', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="e.g., With the heavenly blessings of"
-                  />
-                </div>
 
                 <div>
                   <label className="block text-gray-700 mb-2 font-medium">Grandparents</label>
@@ -545,38 +497,6 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
                 </button>
               </div>
               <div className="space-y-4">
-                <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Events Section Title</label>
-                  <input
-                    type="text"
-                    value={inviteData.eventsSectionTitle}
-                    onChange={(e) => handleInputChange('eventsSectionTitle', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="e.g., On the following events"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Map Section Text</label>
-                  <input
-                    type="text"
-                    value={inviteData.mapSectionText}
-                    onChange={(e) => handleInputChange('mapSectionText', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="e.g., See the route"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Map Click Text</label>
-                  <input
-                    type="text"
-                    value={inviteData.mapClickText}
-                    onChange={(e) => handleInputChange('mapClickText', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="e.g., Click to open the map"
-                  />
-                </div>
               </div>
 
               <div className="space-y-6 mt-6">
@@ -778,8 +698,6 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
                 </div>
               </div>
             </div>
-
-            {/* Extra Fields */}
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-bold mb-4 text-primary">Extra Fields</h2>
               <div className="space-y-4">
@@ -790,50 +708,6 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
                     value={inviteData.counterDate}
                     onChange={(e) => handleInputChange('counterDate', e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Extra Field 1</label>
-                  <input
-                    type="text"
-                    value={inviteData.extraField1}
-                    onChange={(e) => handleInputChange('extraField1', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Custom field 1"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Extra Field 2</label>
-                  <input
-                    type="text"
-                    value={inviteData.extraField2}
-                    onChange={(e) => handleInputChange('extraField2', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Custom field 2"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Extra Field 3</label>
-                  <input
-                    type="text"
-                    value={inviteData.extraField3}
-                    onChange={(e) => handleInputChange('extraField3', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Custom field 3"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 mb-2 font-medium">Extra Field 4</label>
-                  <input
-                    type="text"
-                    value={inviteData.extraField4}
-                    onChange={(e) => handleInputChange('extraField4', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Custom field 4"
                   />
                 </div>
               </div>
@@ -850,8 +724,6 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
                     heroImage={inviteData.heroImage}
                   />
                   <InviteSection 
-                    shlok={inviteData.shlok}
-                    blessingsText={inviteData.blessingsText}
                     grandparents={inviteData.grandparents}
                     groomParents={inviteData.groomParents}
                     brideParents={inviteData.brideParents}
@@ -864,9 +736,6 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
                   />
                   <EventShow 
                     events={inviteData.events}
-                    eventsSectionTitle={inviteData.eventsSectionTitle}
-                    mapSectionText={inviteData.mapSectionText}
-                    mapClickText={inviteData.mapClickText}
                   />
                   <ImageSection 
                     whatsappLink={inviteData.socialLinks}

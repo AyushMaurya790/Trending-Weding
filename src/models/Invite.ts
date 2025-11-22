@@ -19,9 +19,7 @@ export interface IInvite {
   templateId: string;
   slug: string;
   heroGroomName: string; 
-  heroBrideName: string; 
-  shlok: string;
-  blessingsText: string;
+  heroBrideName: string;
   grandparents: string; 
   groomParents: string; 
   brideParents: string; 
@@ -37,18 +35,11 @@ export interface IInvite {
   bridalFamilyName: string;
   familyDetails: string;
   events: IEvent[];
-  eventsSectionTitle: string; 
-  mapSectionText: string; 
-  mapClickText: string; 
   images: string[]; 
   heroImage: string; 
   whatsappLink: string;
   socialLinks: ISocialLink[];
-  counterDate: string;
-  extraField1: string;
-  extraField2: string;
-  extraField3: string;
-  extraField4: string;
+    counterDate: string;
   isPurchased: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -78,14 +69,6 @@ const InviteSchema = new Schema<IInvite>(
     heroBrideName: {
       type: String,
       default: 'Kanika',
-    },
-    shlok: {
-      type: String,
-      default: 'ॐ श्री गणेशाय नम',
-    },
-    blessingsText: {
-      type: String,
-      default: 'With the heavenly blessings of',
     },
     grandparents: {
       type: String,
@@ -153,18 +136,6 @@ const InviteSchema = new Schema<IInvite>(
         locationLink: String,
       },
     ],
-    eventsSectionTitle: {
-      type: String,
-      default: 'On the following events',
-    },
-    mapSectionText: {
-      type: String,
-      default: 'See the route',
-    },
-    mapClickText: {
-      type: String,
-      default: 'Click to open the map',
-    },
     images: [String],
     heroImage: {
       type: String,
@@ -180,23 +151,7 @@ const InviteSchema = new Schema<IInvite>(
         url: String,
       },
     ],
-    counterDate: {
-      type: String,
-      default: '',
-    },
-    extraField1: {
-      type: String,
-      default: '',
-    },
-    extraField2: {
-      type: String,
-      default: '',
-    },
-    extraField3: {
-      type: String,
-      default: '',
-    },
-    extraField4: {
+     counterDate: {
       type: String,
       default: '',
     },

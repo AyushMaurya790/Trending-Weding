@@ -19,7 +19,6 @@ Implemented a complete dynamic template editing system where users can:
 #### 2. `InviteSection.tsx`
 - **Props**: 
   - `shlok` - Sacred text (ॐ श्री गणेशाय नम)
-  - `blessingsText` - Blessings header
   - `groomParents`, `brideParents`
   - `inviteText` - Invitation message
   - `daughterOfText` - Relationship text
@@ -39,8 +38,8 @@ Implemented a complete dynamic template editing system where users can:
 
 Extended `Invite` schema (`src/models/Invite.ts`) with:
 - Hero section fields (heroGroomName, heroBrideName, heroImage)
-- Invite section fields (shlok, blessingsText, parents, grandparents, etc.)
-- Event section fields (eventsSectionTitle, mapSectionText, etc.)
+- Invite section fields (shlok, parents, grandparents, etc.)
+- Event section fields (eventsSectionTitle, etc.)
 - Events array with venue, time, date, location
 - All fields have sensible defaults matching original template
 

@@ -27,7 +27,7 @@ const EndDetails = ({ counterDate, locationLink, socialLinks }: EndDetailsProps)
     };
 
     calculateTimeLeft();
-    const timer = setInterval(calculateTimeLeft, 60000); // Update every minute
+    const timer = setInterval(calculateTimeLeft, 60000);
 
     return () => clearInterval(timer);
   }, [counterDate]);

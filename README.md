@@ -120,7 +120,6 @@ web-tem/
 ### Template Editor Fields
 
 - Groom & Bride names
-- Shlok/Quote
 - Family names and details
 - Multiple events with:
   - Event name

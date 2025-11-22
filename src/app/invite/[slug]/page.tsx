@@ -29,8 +29,6 @@ interface InviteData {
   heroGroomName: string;
   heroBrideName: string;
   heroImage: string;
-  shlok: string;
-  blessingsText: string;
   grandparents: string;
   groomParents: string;
   brideParents: string;
@@ -41,9 +39,6 @@ interface InviteData {
   weddingDate: string;
   weddingVenue: string;
   events: Event[];
-  eventsSectionTitle: string;
-  mapSectionText: string;
-  mapClickText: string;
   images: string[];
   socialLinks: SocialLink[];
   counterDate: string;
@@ -110,8 +105,6 @@ export default function PublicInvite({ params }: { params: Promise<{ slug: strin
         heroImage={inviteData.heroImage || '/assets/couple.png'}
       />
       <InviteSection 
-        shlok={inviteData.shlok || 'ॐ श्री गणेशाय नम'}
-        blessingsText={inviteData.blessingsText || 'With the heavenly blessings of'}
         grandparents={inviteData.grandparents || 'Smt. Lata Devi & Sm. Kamal Kapoor'}
         groomParents={inviteData.groomParents || 'Mrs. Reena & Mr. Rajiv Kapoor'}
         brideParents={inviteData.brideParents || 'Mrs. Reena & Mr. Rajiv Kapoor'}
@@ -124,9 +117,6 @@ export default function PublicInvite({ params }: { params: Promise<{ slug: strin
       />
       <EventShow 
         events={inviteData.events || []}
-        eventsSectionTitle={inviteData.eventsSectionTitle || 'On the following events'}
-        mapSectionText={inviteData.mapSectionText || 'See the route'}
-        mapClickText={inviteData.mapClickText || 'Click to open the map'}
       />
       <ImageSection 
         whatsappLink={inviteData.socialLinks || []}

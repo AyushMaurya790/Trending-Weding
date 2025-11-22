@@ -32,8 +32,6 @@ export async function POST(req: NextRequest) {
       heroGroomName: 'Abhishek',
       heroBrideName: 'Kanika',
       heroImage: '/assets/couple.png',
-      shlok: 'ॐ श्री गणेशाय नम',
-      blessingsText: 'With the heavenly blessings of',
       grandparents: 'Smt. Lata Devi & Sm. Kamal Kapoor',
       groomParents: 'Mrs. Reena & Mr. Rajiv Kapoor',
       brideParents: 'Mrs. Reena & Mr. Rajiv Kapoor',
@@ -43,9 +41,6 @@ export async function POST(req: NextRequest) {
       coupleName2: 'Anjali',
       weddingDate: 'Saturday, 21 June 2035',
       weddingVenue: '123 Anywhere St., City, ST 12345',
-      eventsSectionTitle: 'On the following events',
-      mapSectionText: 'See the route',
-      mapClickText: 'Click to open the map',
       events: [
         {
           eventName: 'Mehandi',

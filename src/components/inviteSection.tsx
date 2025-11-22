@@ -6,8 +6,6 @@ import Image from "next/image";
 const EASE_SOFT_OUT = [0.16, 1, 0.3, 1] as const;
 
 interface InviteSectionProps {
-  shlok?: string;
-  blessingsText?: string;
   grandparents?: string;
   groomParents?: string;
   brideParents?: string;
@@ -20,8 +18,6 @@ interface InviteSectionProps {
 }
 
 const InviteSection = ({
-  shlok = 'ॐ श्री गणेशाय नम',
-  blessingsText = 'With the heavenly blessings of',
   grandparents = 'Smt. Lata Devi & Sm. Kamal Kapoor',
   groomParents = 'Mrs. Reena & Mr. Rajiv Kapoor',
   brideParents = 'Mrs. Reena & Mr. Rajiv Kapoor',
@@ -52,7 +48,7 @@ const InviteSection = ({
         className="
         font-Jacques-plain md:text-[26px] text-sm leading-[150%] absolute md:top-10 top-3 left-1/2 -translate-x-1/2 text-center text-[#BD8C1C]"
       >
-        {shlok}
+        ॐ श्री गणेशाय नमः
       </p>
       <SvgIcon
         name="LordGanesh"
@@ -62,7 +58,7 @@ const InviteSection = ({
         className="
         font-Jacques-plain  text-sm md:text-[42px] leading-[150%] absolute top-3/18 md:top-3/18 left-1/2 -translate-x-1/2 w-full text-center "
       >
-        {blessingsText} <br />
+        With the heavenly blessings of <br />
         {grandparents}
         {(groomParents || brideParents) && <> <br /> and <br /></>}
         {groomParents && brideParents ? `${brideParents} & ${groomParents}` : (groomParents || brideParents)}
