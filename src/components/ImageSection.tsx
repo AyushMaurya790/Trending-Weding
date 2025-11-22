@@ -4,8 +4,15 @@ import SvgIcon from "./SvgIcon";
 import { useState, useEffect } from "react";
 const EASE_BOUNCE = [0.68, -0.55, 0.265, 1.55] as const;
 
-const ImageSection = () => {
-  const carouselImages = ["/assets/1.avif", "/assets/img/event/haldi.png"];
+interface ImageSectionProps {
+  whatsappLink?: { platform: string; url: string }[];
+  images?: string[];
+}
+
+const ImageSection = ({ whatsappLink, images }: ImageSectionProps) => {
+  const staticImages = ["/assets/1.avif", "/assets/img/event/haldi.png"];
+  const carouselImages = images && images.length > 0 ? images : staticImages;
+  const whatsappUrl = whatsappLink?.find(link => link.platform.toLowerCase() === 'whatsapp')?.url || "https://wa.me/1234567890";
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -18,6 +25,12 @@ const ImageSection = () => {
 
     return () => clearInterval(interval);
   }, [carouselImages.length]);
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) => 
+      (prevIndex + 1) % carouselImages.length
+    );
+  };
 
   return (
     <section className="w-full relative text-[#F2CD93] font-Jacques-plain">
@@ -52,7 +65,10 @@ const ImageSection = () => {
         are looking forward to see you at the wedding.
       </p>
 
-      <div className="absolute md:top-6/18 top-6/18 left-1/2 -translate-x-1/2">
+      <div 
+        className="absolute md:top-6/18 top-6/18 left-1/2 -translate-x-1/2 cursor-pointer"
+        onClick={handleNextImage}
+      >
         <div className="relative inline-block">
           <img
             src="/assets/img/event/imageFrame.png"
@@ -63,14 +79,14 @@ const ImageSection = () => {
             key={currentImageIndex}
             src={carouselImages[currentImageIndex]}
             alt="photo"
-            className=" absolute top-[14%] left-[14%] w-[72%] h-[72%] object-cover z-10  rounded-full  overflow-hidden"
+            className="absolute top-[14%] left-[14%] w-[72%] h-[72%] object-cover z-10 rounded-full overflow-hidden"
             style={{
               clipPath: "circle(50% at 50% 50%)",
             }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "-100%" }}
+            transition={{ duration: 0.7, ease: "easeInOut" }}
           />
         </div>
       </div>
@@ -83,7 +99,9 @@ const ImageSection = () => {
         <br />
       </p>
       <motion.a
-        href="https://wa.me/1234567890"
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
         className="absolute  left-1/2 -translate-x-1/2 md:top-13/18 mt-10 top-14/20"
         animate={{
           y: [0, -15, 0],

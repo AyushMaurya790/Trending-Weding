@@ -52,6 +52,10 @@ interface InviteData {
   whatsappLink: string;
   socialLinks: SocialLink[];
   counterDate: string;
+  temprature?: string;
+  staffDetails?: string;
+  parkingDetails?: string;
+  locationLink?: string;
   extraField1: string;
   extraField2: string;
   extraField3: string;
@@ -89,6 +93,10 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
     whatsappLink: `https://wa.me/`,
     socialLinks: [{ platform: '', url: '' }],
     counterDate: '',
+    temprature: '',
+    staffDetails: '',
+    parkingDetails: '',
+    locationLink: '',
     extraField1: '',
     extraField2: '',
     extraField3: '',
@@ -149,6 +157,10 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
           whatsappLink: data.whatsappLink || '',
           socialLinks: data.socialLinks?.length > 0 ? data.socialLinks : [{ platform: '', url: '' }],
           counterDate: data.counterDate || '',
+          temprature: data.temprature || '',
+          staffDetails: data.staffDetails || '',
+          parkingDetails: data.parkingDetails || '',
+          locationLink: data.locationLink || '',
           extraField1: data.extraField1 || '',
           extraField2: data.extraField2 || '',
           extraField3: data.extraField3 || '',
@@ -205,6 +217,10 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
   };
 
   const addEvent = () => {
+    if (inviteData.events.length >= 6) {
+      alert('Maximum 6 events allowed');
+      return;
+    }
     setInviteData((prev) => ({
       ...prev,
       events: [...prev.events, { 
@@ -250,8 +266,8 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
-    if (inviteData.images.length + files.length > 10) {
-      alert('Maximum 10 images allowed');
+    if (inviteData.images.length + files.length > 6) {
+      alert('Maximum 6 images allowed for carousel');
       return;
     }
 
@@ -262,19 +278,19 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
       for (const file of Array.from(files)) {
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || '');
 
-        const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-          {
-            method: 'POST',
-            body: formData,
-          }
-        );
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
 
         if (response.ok) {
           const data = await response.json();
-          uploadedUrls.push(data.secure_url);
+          uploadedUrls.push(data.url);
+        } else {
+          const errorData = await response.json();
+          console.error('Upload failed:', errorData);
+          alert(`Upload failed: ${errorData.error || 'Unknown error'}`);
         }
       }
 
@@ -284,7 +300,7 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
       }));
     } catch (error) {
       console.error('Error uploading images:', error);
-      alert('Failed to upload images');
+      alert('Failed to upload images. Please check your internet connection.');
     } finally {
       setUploadingImage(false);
     }
@@ -293,6 +309,36 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
   const removeImage = (index: number) => {
     const newImages = inviteData.images.filter((_, i) => i !== index);
     setInviteData((prev) => ({ ...prev, images: newImages }));
+  };
+
+  const handleHeroImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setInviteData((prev) => ({ ...prev, heroImage: data.url }));
+      } else {
+        const errorData = await response.json();
+        console.error('Upload failed:', errorData);
+        alert(`Upload failed: ${errorData.error || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Error uploading hero image:', error);
+      alert('Failed to upload image. Please check your internet connection.');
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   const copyShareLink = () => {
@@ -347,6 +393,23 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-bold mb-4 text-primary">Hero Section</h2>
               <div className="space-y-4">
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Hero Image (Couple Photo)</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleHeroImageUpload}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    disabled={uploadingImage}
+                  />
+                  {inviteData.heroImage && (
+                    <div className="mt-2 relative inline-block">
+                      <img src={inviteData.heroImage} alt="Hero" className="w-32 h-32 object-cover rounded-lg" />
+                    </div>
+                  )}
+                  {uploadingImage && <p className="text-sm text-gray-500 mt-2">Uploading...</p>}
+                </div>
+
                 <div>
                   <label className="block text-gray-700 mb-2 font-medium">Groom Name (Hero) *</label>
                   <input
@@ -501,10 +564,11 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
             {/* Events Section */}
             <div className="bg-white rounded-lg shadow-lg p-6">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-primary">Events</h2>
+                <h2 className="text-xl font-bold text-primary">Events (Max 6)</h2>
                 <button
                   onClick={addEvent}
-                  className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition text-sm"
+                  disabled={inviteData.events.length >= 6}
+                  className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   + Add Event
                 </button>
@@ -609,7 +673,7 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
 
             {/* Images Section */}
             <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-xl font-bold mb-4 text-primary">Images (Max 10)</h2>
+              <h2 className="text-xl font-bold mb-4 text-primary">Carousel Images (Max 6)</h2>
               <div className="space-y-4">
                 <div>
                   <input
@@ -618,9 +682,10 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
                     accept="image/*"
                     onChange={handleImageUpload}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    disabled={uploadingImage || inviteData.images.length >= 10}
+                    disabled={uploadingImage || inviteData.images.length >= 6}
                   />
                   {uploadingImage && <p className="text-sm text-gray-500 mt-2">Uploading...</p>}
+                  <p className="text-sm text-gray-500 mt-1">{inviteData.images.length}/6 images uploaded</p>
                 </div>
                 <div className="grid grid-cols-3 gap-4">
                   {inviteData.images.map((url, index) => (
@@ -689,6 +754,56 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
                       )}
                     </div>
                   ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Additional Details */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-bold mb-4 text-primary">Additional Details</h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Temperature/Weather Info</label>
+                  <input
+                    type="text"
+                    value={inviteData.temprature || ''}
+                    onChange={(e) => handleInputChange('temprature', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="e.g., It will be mostly sunny with temperature reaching up to 28 degrees."
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Staff Accommodation Details</label>
+                  <textarea
+                    value={inviteData.staffDetails || ''}
+                    onChange={(e) => handleInputChange('staffDetails', e.target.value)}
+                    rows={2}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="e.g., We recommend the nearby hotel called Bhola Bhawan near the venue for the staff members"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Parking Details</label>
+                  <textarea
+                    value={inviteData.parkingDetails || ''}
+                    onChange={(e) => handleInputChange('parkingDetails', e.target.value)}
+                    rows={2}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="e.g., Valet parking for all our guests will be available at the venue"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 mb-2 font-medium">Venue Location Link (Google Maps)</label>
+                  <input
+                    type="url"
+                    value={inviteData.locationLink || ''}
+                    onChange={(e) => handleInputChange('locationLink', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="https://maps.google.com/..."
+                  />
                 </div>
               </div>
             </div>
@@ -786,8 +901,17 @@ export default function Editor({ params }: { params: Promise<{ id: string }> }) 
                     whatsappLink={inviteData.socialLinks}
                     images={inviteData.images}
                   />
-                  <SubDetails />
-                  <EndDetails/>
+                  <SubDetails 
+                   socialLinks={inviteData.socialLinks}
+                   temprature={inviteData.temprature}
+                   staffDetails={inviteData.staffDetails}
+                   parkingDetails={inviteData.parkingDetails}
+                  />
+                  <EndDetails 
+                    counterDate={inviteData.counterDate}
+                    locationLink={inviteData.locationLink}
+                    socialLinks={inviteData.socialLinks}
+                  />
                 </div>
               </div>
               <p className="text-xs text-gray-500 mt-4 text-center">

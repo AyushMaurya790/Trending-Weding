@@ -1,32 +1,43 @@
 import Image from "next/image";
 import SvgIcon from "./SvgIcon";
-const items = [
-  {
-    icon: "Instagram",
-    title: "Instagram",
-    className: "md:w-20 md:h-20 w-5 h-5",
-    desc: "While posting photos on social media please use the hashtag - #abkan",
-  },
-  {
-    icon: "Weather",
-    title: "Weather",
-    className: "md:w-22 md:h-21 w-5 h-5",
-    desc: "It will be mostly sunny with temperature reaching up to 28 degrees.",
-  },
-  {
-    icon: "Staff",
-    title: "Staff",
-    className: "md:w-16 md:h-20 w-5 h-5",
-    desc: "We recommend the nearby hotel called Bhola Bhawan near the venue for the staff members",
-  },
-  {
-    icon: "Parking",
-    title: "Parking",
-    className: "md:w-28 md:h-20 w-5 h-5",
-    desc: "Valet parking for all our guests will be available at the venue",
-  },
-];
-const SubDetails = () => {
+
+interface SubDetailsProps {
+  socialLinks?: { platform: string; url: string }[];
+  temprature?: string;
+  staffDetails?: string;
+  parkingDetails?: string;
+}
+
+const SubDetails = ({ socialLinks, temprature, staffDetails, parkingDetails }: SubDetailsProps) => {
+  const instagramLink = socialLinks?.find(link => link.platform.toLowerCase() === 'instagram');
+  const instagramHashtag = instagramLink?.url ? `Please use ${instagramLink.url}` : "#abkan";
+
+  const items = [
+    {
+      icon: "Instagram",
+      title: "Instagram",
+      className: "md:w-20 md:h-20 w-5 h-5",
+      desc: `While posting photos on social media please use the hashtag - ${instagramHashtag}`,
+    },
+    {
+      icon: "Weather",
+      title: "Weather",
+      className: "md:w-22 md:h-21 w-5 h-5",
+      desc: temprature || "It will be mostly sunny with temperature reaching up to 28 degrees.",
+    },
+    {
+      icon: "Staff",
+      title: "Staff",
+      className: "md:w-16 md:h-20 w-5 h-5",
+      desc: staffDetails || "We recommend the nearby hotel called Bhola Bhawan near the venue for the staff members",
+    },
+    {
+      icon: "Parking",
+      title: "Parking",
+      className: "md:w-28 md:h-20 w-5 h-5",
+      desc: parkingDetails || "Valet parking for all our guests will be available at the venue",
+    },
+  ];
   return (
     <section className="w-full relative text-[#5B78A6] font-Jacques-plain overflow-hidden">
       <Image
