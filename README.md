@@ -133,11 +133,17 @@ web-tem/
 
 ### Payment Flow
 
-Currently uses mock payment. To integrate Razorpay:
+The platform now supports both real payment processing with Razorpay and a mock payment option for testing:
 
+1. **Real Payments**: Uses the `/api/payment` endpoint with Razorpay integration
+2. **Mock Payments**: Uses the `/api/payment/mock` endpoint for testing without actual charges
+
+To enable real payments:
 1. Update `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET` in `.env.local`
-2. Modify `/api/payment/mock/route.ts` to call Razorpay API
-3. Add Razorpay checkout UI in `TemplateCard` component
+2. Use the new [PaymentButton](./src/components/PaymentButton.tsx) component for frontend integration
+3. Test with the provided Postman collection or curl commands
+
+For testing without actual payments, use the mock endpoint which bypasses Razorpay entirely.
 
 ## Deployment
 
