@@ -18,9 +18,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="flex flex-col">
         <SessionProviderWrapper>
-          {/* <Navbar /> */}
+          <Navbar />
           <main className="grow">{children}</main>
-          {/* <Footer /> */}
+          <Footer />
         </SessionProviderWrapper>
       </body>
     </html>
