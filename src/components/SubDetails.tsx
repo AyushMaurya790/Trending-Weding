@@ -16,25 +16,25 @@ const SubDetails = ({ socialLinks, temprature, staffDetails, parkingDetails }: S
     {
       icon: "Instagram",
       title: "Instagram",
-      className: "md:w-20 md:h-20 w-5 h-5",
+      className: "md:w-20 md:h-20 w-10 h-10",
       desc: `While posting photos on social media please use the hashtag - ${instagramHashtag}`,
     },
     {
       icon: "Weather",
       title: "Weather",
-      className: "md:w-22 md:h-21 w-5 h-5",
+      className: "md:w-22 md:h-21 w-10 h-10",
       desc: temprature || "It will be mostly sunny with temperature reaching up to 28 degrees.",
     },
     {
       icon: "Staff",
       title: "Staff",
-      className: "md:w-16 md:h-20 w-5 h-5",
+      className: "md:w-16 md:h-20 w-10 h-10",
       desc: staffDetails || "We recommend the nearby hotel called Bhola Bhawan near the venue for the staff members",
     },
     {
       icon: "Parking",
       title: "Parking",
-      className: "md:w-28 md:h-20 w-5 h-5",
+      className: "md:w-28 md:h-20 w-10 h-10",
       desc: parkingDetails || "Valet parking for all our guests will be available at the venue",
     },
   ];
@@ -45,7 +45,7 @@ const SubDetails = ({ socialLinks, temprature, staffDetails, parkingDetails }: S
         alt="wedding-photo"
         width={1920}
         height={1080}
-        className="object-cover md:h-full h-130 w-full"
+        className="object-cover md:h-full h-220 w-full"
       />
       <img
         src="/assets/img/event/flowerSet.png"
@@ -80,8 +80,8 @@ const SubDetails = ({ socialLinks, temprature, staffDetails, parkingDetails }: S
         the big day.
       </p>
       <div
-        className="absolute left-1/2 -translate-x-1/2 md:text-xl text-xs text-center md:top-[450px] top-0/20 leading-[120%]
-         grid md:grid-cols-4 grid-cols-2 md:gap-x-20 gap-x-10 w-full md:px-60 px-15 mt-40"
+        className="absolute left-1/2 -translate-x-1/2 md:text-xl text-xs text-center md:top-[450px] top-2/20 leading-[120%]
+         grid md:grid-cols-4 grid-cols-1 md:gap-x-20 gap-x-10 w-full md:px-60 px-15 mt-40 gap-"
       >
         {items.map((item, index) => (
           <div
