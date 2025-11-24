@@ -100,112 +100,126 @@ const InviteSection = ({
         className="object-cover absolute bottom-0 left-1/2 -translate-x-1/2 md:h-240 h-auto"
       />
 
-      {[...Array(15)].map((_, i) => (
-        <motion.div
-          key={`heart-bottom-${i}`}
-          className="absolute bottom-0 pointer-events-none z-30"
-          style={{
-            left: `${i * 6.5}%`,
-            fontSize: i % 3 === 0 ? '2rem' : i % 3 === 1 ? '2.5rem' : '3rem',
-          }}
-          animate={{
-            opacity: [0, 0.6, 1, 0.6, 0],
-            y: [0, -150, -300, -500],
-            x: [0, Math.sin(i * 0.5) * 20, Math.sin(i * 0.5) * -20, 0],
-            scale: [0.3, 0.8, 1.2, 0.6, 0.2],
-            rotate: [0, 90, 180, 270, 360],
-          }}
-          transition={{
-            duration: 6 + (i % 3),
-            delay: i * 0.4,
-            ease: EASE_SOFT_OUT,
-            repeat: Infinity,
-            repeatDelay: 0,
-          }}
-        >
-          ❤️
-        </motion.div>
-      ))}
+   {[...Array(15)].map((_, i) => (
+  <motion.div
+    key={`heart-bottom-${i}`}
+    className="
+      absolute bottom-0 pointer-events-none z-30
+      text-lg 
+      md:text-3xl   
+      lg:text-5xl   
+    "
+    style={{
+      left: `${i * 6.5}%`,
+    }}
+    animate={{
+      opacity: [0, 0.6, 1, 0.6, 0],
+      y: [0, -150, -300, -500],
+      x: [0, Math.sin(i * 0.5) * 20, Math.sin(i * 0.5) * -20, 0],
+      scale: [0.3, 0.8, 1.2, 0.6, 0.2],
+      rotate: [0, 90, 180, 270, 360],
+    }}
+    transition={{
+      duration: 6 + (i % 3),
+      delay: i * 0.4,
+      ease: EASE_SOFT_OUT,
+      repeat: Infinity,
+    }}
+  >
+    ❤️
+  </motion.div>
+))}
+
       
-      {[...Array(12)].map((_, i) => (
-        <motion.div
-          key={`heart-bottom-layer2-${i}`}
-          className="absolute bottom-0 pointer-events-none z-30"
-          style={{
-            left: `${5 + i * 7.5}%`,
-            fontSize: i % 2 === 0 ? '1.5rem' : '2rem',
-          }}
-          animate={{
-            opacity: [0, 0.8, 1, 0.5, 0],
-            y: [0, -200, -400, -600],
-            x: [0, Math.cos(i * 0.7) * -15, Math.cos(i * 0.7) * 15, 0],
-            scale: [0.2, 1, 0.8, 0.4, 0.1],
-            rotate: [0, -90, -180, -270, -360],
-          }}
-          transition={{
-            duration: 7 + (i % 2),
-            delay: 0.3 + i * 0.5,
-            ease: EASE_SOFT_OUT,
-            repeat: Infinity,
-            repeatDelay: 0,
-          }}
-        >
-          ❤️
-        </motion.div>
-      ))}
-      {[...Array(15)].map((_, i) => (
-        <motion.div
-          key={`heart-top-${i}`}
-          className="absolute top-0 pointer-events-none z-30"
-          style={{
-            left: `${i * 6.5}%`,
-            fontSize: i % 3 === 0 ? '2rem' : i % 3 === 1 ? '2.5rem' : '3rem',
-          }}
-          animate={{
-            opacity: [0, 0.6, 1, 0.6, 0],
-            y: [0, 150, 300, 500],
-            x: [0, Math.sin(i * 0.5) * 20, Math.sin(i * 0.5) * -20, 0],
-            scale: [0.3, 0.8, 1.2, 0.6, 0.2],
-            rotate: [0, 90, 180, 270, 360],
-          }}
-          transition={{
-            duration: 6 + (i % 3),
-            delay: i * 0.4,
-            ease: EASE_SOFT_OUT,
-            repeat: Infinity,
-            repeatDelay: 0,
-          }}
-        >
-          ❤️
-        </motion.div>
-      ))}
-      
-      {[...Array(12)].map((_, i) => (
-        <motion.div
-          key={`heart-top-layer2-${i}`}
-          className="absolute top-0 pointer-events-none z-30"
-          style={{
-            left: `${5 + i * 7.5}%`,
-            fontSize: i % 2 === 0 ? '1.5rem' : '2rem',
-          }}
-          animate={{
-            opacity: [0, 0.8, 1, 0.5, 0],
-            y: [0, 200, 400, 600],
-            x: [0, Math.cos(i * 0.7) * -15, Math.cos(i * 0.7) * 15, 0],
-            scale: [0.2, 1, 0.8, 0.4, 0.1],
-            rotate: [0, -90, -180, -270, -360],
-          }}
-          transition={{
-            duration: 7 + (i % 2),
-            delay: 0.3 + i * 0.5,
-            ease: EASE_SOFT_OUT,
-            repeat: Infinity,
-            repeatDelay: 0,
-          }}
-        >
-          ❤️
-        </motion.div>
-      ))}
+{[...Array(12)].map((_, i) => (
+  <motion.div
+    key={`heart-bottom-layer2-${i}`}
+    className="
+      absolute bottom-0 pointer-events-none z-30
+      text-base     /* mobile smaller */
+      md:text-2xl   /* tablet */
+      lg:text-4xl   /* desktop */
+    "
+    style={{
+      left: `${5 + i * 7.5}%`,
+    }}
+    animate={{
+      opacity: [0, 0.8, 1, 0.5, 0],
+      y: [0, -200, -400, -600],
+      x: [0, Math.cos(i * 0.7) * -15, Math.cos(i * 0.7) * 15, 0],
+      scale: [0.2, 1, 0.8, 0.4, 0.1],
+      rotate: [0, -90, -180, -270, -360],
+    }}
+    transition={{
+      duration: 7 + (i % 2),
+      delay: 0.3 + i * 0.5,
+      ease: EASE_SOFT_OUT,
+      repeat: Infinity,
+    }}
+  >
+    ❤️
+  </motion.div>
+))}
+{[...Array(15)].map((_, i) => (
+  <motion.div
+    key={`heart-top-${i}`}
+    className="
+      absolute top-0 pointer-events-none z-30
+      text-lg       
+      md:text-3xl   
+      lg:text-5xl   
+    "
+    style={{
+      left: `${i * 6.5}%`,
+    }}
+    animate={{
+      opacity: [0, 0.6, 1, 0.6, 0],
+      y: [0, 150, 300, 500],
+      x: [0, Math.sin(i * 0.5) * 20, Math.sin(i * 0.5) * -20, 0],
+      scale: [0.3, 0.8, 1.2, 0.6, 0.2],
+      rotate: [0, 90, 180, 270, 360],
+    }}
+    transition={{
+      duration: 6 + (i % 3),
+      delay: i * 0.4,
+      ease: EASE_SOFT_OUT,
+      repeat: Infinity,
+    }}
+  >
+    ❤️
+  </motion.div>
+))}
+
+  {[...Array(12)].map((_, i) => (
+  <motion.div
+    key={`heart-top-layer2-${i}`}
+    className="
+      absolute top-0 pointer-events-none z-30
+      text-base     
+      md:text-2xl   
+      lg:text-4xl   
+    "
+    style={{
+      left: `${5 + i * 7.5}%`,
+    }}
+    animate={{
+      opacity: [0, 0.8, 1, 0.5, 0],
+      y: [0, 200, 400, 600],
+      x: [0, Math.cos(i * 0.7) * -15, Math.cos(i * 0.7) * 15, 0],
+      scale: [0.2, 1, 0.8, 0.4, 0.1],
+      rotate: [0, -90, -180, -270, -360],
+    }}
+    transition={{
+      duration: 7 + (i % 2),
+      delay: 0.3 + i * 0.5,
+      ease: EASE_SOFT_OUT,
+      repeat: Infinity,
+    }}
+  >
+    ❤️
+  </motion.div>
+))}
+
     </section>
   );
 };

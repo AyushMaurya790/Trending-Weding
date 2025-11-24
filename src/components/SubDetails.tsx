@@ -58,29 +58,29 @@ const SubDetails = ({ socialLinks, temprature, staffDetails, parkingDetails }: S
         alt="wedding-photo"
         width={1920}
         height={1080}
-        className="object-cover absolute w-80 md:h-120 h-20 top-15 right-10"
+       className="object-cover absolute md:w-80 w-60 md:h-120 h-35 md:top-15 md:right-10 top-0 -right-17 scale-x-[-1]"
       />
         <Image
         src="/assets/img/event/flower.png"
         alt="wedding-photo"
         width={1920}
         height={1080}
-        className="object-cover absolute w-80 md:h-120 h-20 top-15 left-10 scale-x-[-1]"
+        className="object-cover absolute md:w-80 w-60 md:h-120 h-35 md:top-15 md:right-10 top-0 -left-17 scale-x-[-1]"
       />
       <p
         className="
-        font-Jacques-plain md:text-[56px] text-sm leading-[120%] absolute md:top-2/8 left-1/2 -translate-x-1/2 text-center "
+        font-Jacques-plain md:text-[56px] text-sm leading-[120%] absolute md:top-2/8 left-1/2 -translate-x-1/2 text-center top-2/20"
       >
         Things To  Know
       </p>
-      <p className=" md:text-[27px] text-[10px]  text-center absolute left-1/2 -translate-x-1/2 md:top-4/12 top-4/20 leading-[120%] w-full px-18 md:max-w-6xl">
+      <p className=" md:text-[27px] text-[10px]  text-center absolute left-1/2 -translate-x-1/2 md:top-4/12 top-3/20 leading-[120%] w-full px-18 md:max-w-6xl">
         To help you feel at ease and enjoy every moment of the celebrations,
         <br />
         we’ve gathered a few thoughtful details we’d love for you to know before
         the big day.
       </p>
       <div
-        className="absolute left-1/2 -translate-x-1/2 md:text-xl text-xs text-center md:top-[450px] top-2/20 leading-[120%]
+        className="absolute left-1/2 -translate-x-1/2 md:text-xl text-xs text-center md:top-[450px] top-1/20 leading-[120%]
          grid md:grid-cols-4 grid-cols-1 md:gap-x-20 gap-x-10 w-full md:px-60 px-15 mt-40 gap-"
       >
         {items.map((item, index) => (

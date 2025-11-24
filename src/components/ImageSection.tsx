@@ -21,7 +21,7 @@ const ImageSection = ({ whatsappLink, images }: ImageSectionProps) => {
       setCurrentImageIndex(
         (prevIndex) => (prevIndex + 1) % carouselImages.length
       );
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [carouselImages.length]);
@@ -83,10 +83,9 @@ const ImageSection = ({ whatsappLink, images }: ImageSectionProps) => {
             style={{
               clipPath: "circle(50% at 50% 50%)",
             }}
-            initial={{ opacity: 0, x: "100%" }}
+            initial={{ opacity: 0, x: "10%" }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "-100%" }}
-            transition={{ duration: 0.7, ease: "easeInOut" }}
+            exit={{ opacity: 0, x: "-10%" }}
           />
         </div>
       </div>
