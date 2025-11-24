@@ -34,6 +34,12 @@ export default function Navbar() {
             {session ? (
               <div className="flex items-center space-x-4">
                 <span className="text-gray-700">Hi, {session.user?.name || 'User'}</span>
+                <Link
+                  href="/admin"
+                  className="text-gray-700 hover:text-primary transition"
+                >
+                  Admin
+                </Link>
                 <button
                   onClick={() => signOut()}
                   className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
@@ -42,12 +48,20 @@ export default function Navbar() {
                 </button>
               </div>
             ) : (
-              <Link
-                href="/login"
-                className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition"
-              >
-                Login
-              </Link>
+              <div className="flex items-center space-x-4">
+                <Link
+                  href="/signup"
+                  className="text-gray-700 hover:text-primary transition"
+                >
+                  Sign Up
+                </Link>
+                <Link
+                  href="/login"
+                  className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition"
+                >
+                  Login
+                </Link>
+              </div>
             )}
           </div>
 
@@ -117,6 +131,13 @@ export default function Navbar() {
               {session ? (
                 <>
                   <span className="text-gray-700 py-2">Hi, {session.user?.name || 'User'}</span>
+                  <Link
+                    href="/admin"
+                    className="text-gray-700 hover:text-primary transition py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Admin Dashboard
+                  </Link>
                   <button
                     onClick={() => {
                       signOut();
@@ -128,13 +149,22 @@ export default function Navbar() {
                   </button>
                 </>
               ) : (
-                <Link
-                  href="/login"
-                  className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition text-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Login
-                </Link>
+                <>
+                  <Link
+                    href="/signup"
+                    className="text-gray-700 hover:text-primary transition py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Sign Up
+                  </Link>
+                  <Link
+                    href="/login"
+                    className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition text-center"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Login
+                  </Link>
+                </>
               )}
             </div>
           </div>

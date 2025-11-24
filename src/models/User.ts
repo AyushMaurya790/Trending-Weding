@@ -4,7 +4,9 @@ export interface IUser {
   _id: string;
   name: string;
   email: string;
+  phone: number;
   password: string;
+  isAdmin: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -15,6 +17,10 @@ const UserSchema = new Schema<IUser>(
       type: String,
       required: [true, 'Name is required'],
     },
+    phone: {
+      type: Number,
+      required: [true, 'Phone number is required'],
+    },
     email: {
       type: String,
       required: [true, 'Email is required'],
@@ -24,6 +30,10 @@ const UserSchema = new Schema<IUser>(
     password: {
       type: String,
       required: [true, 'Password is required'],
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
     },
   },
   {

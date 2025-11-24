@@ -18,7 +18,6 @@ export const authOptions: NextAuthOptions = {
         }
 
         await dbConnect();
-
         const user = await User.findOne({ email: credentials.email });
 
         if (!user) {
@@ -38,6 +37,7 @@ export const authOptions: NextAuthOptions = {
           id: user._id.toString(),
           email: user.email,
           name: user.name,
+          phone: user.phone,
         };
       },
     }),

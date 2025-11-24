@@ -1,5 +1,7 @@
 'use client';
 import { useState } from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 import AnimationWrapper from '@/components/AnimationWrapper';
 
 export default function Contact() {
@@ -13,13 +15,15 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock form submission
-    console.log('Form submitted:', formData);
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
+    
+    try {
+      await axios.post('/api/contact', formData);
+      toast.success('Thank you! We will get back to you soon.');
       setFormData({ name: '', email: '', phone: '', message: '' });
-    }, 3000);
+    } catch (error) {
+      console.error('Contact form error:', error);
+      toast.error('Failed to send message. Please try again.');
+    }
   };
 
   const handleChange = (
@@ -55,11 +59,6 @@ export default function Contact() {
             <AnimationWrapper>
               <div className="bg-white p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
-                {submitted && (
-                  <div className="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
-                    Thank you! We'll get back to you soon.
-                  </div>
-                )}
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label htmlFor="name" className="block text-gray-700 mb-2 font-medium">

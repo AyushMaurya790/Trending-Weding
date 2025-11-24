@@ -4,6 +4,7 @@ export interface ITemplate {
   _id: string;
   title: string;
   description: string;
+  slug: string;
   imageUrl: string;
   price: number;
   category: string;
@@ -21,6 +22,12 @@ const TemplateSchema = new Schema<ITemplate>(
     description: {
       type: String,
       required: true,
+    },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
     },
     imageUrl: {
       type: String,
