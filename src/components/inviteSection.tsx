@@ -40,7 +40,7 @@ const InviteSection = ({
         alt="wedding-photo"
         width={1920}
         height={1080}
-        className="object-cover absolute md:-top-10 -top-2 mx-auto w-full"
+        className="object-cover absolute md:-top-2 -top-2 mx-auto w-full"
       />
       <p
         className="

@@ -42,21 +42,21 @@ const ImageSection = ({ whatsappLink, images }: ImageSectionProps) => {
       <img
         src="/assets/img/event/headerImg.png"
         alt="wedding-photo"
-        className="object-cover absolute md:top-9 md:right-9 top-2 right-2 w-auto md:h-106 h-30"
+        className="object-cover absolute lg:top-9 md:top-4 lg:right-9 top-2 right-2 w-auto md:right-4 top-1 right-1 w-1.5 lg:h-106 h-30 md:h-50 h-15"
       />
       <img
         src="/assets/img/event/headerImg.png"
         alt="wedding-photo"
-        className="object-cover absolute md:top-9 md:left-9 top-2 left-2 w-auto md:h-106 h-30 scale-x-[-1]"
+        className="object-cover absolute lg:top-9 md:top-4 lg:left-9 top-2 left-2 w-auto md:left-4 top-1 left-1 w-1.5 lg:h-106 h-30 scale-x-[-1] md:h-50 h-15"
       />
-      <p className=" md:text-[42px] text-xl  text-center absolute left-1/2 -translate-x-1/2 md:top-[294px] top-2/20 uppercase leading-[120%]">
+      <p className=" lg:text-[42px] text-xl  text-center absolute left-1/2 -translate-x-1/2 md:text-[21px] text-xl  text-center absolute left-1/2 -translate-x-1/2 lg:top-[294px] top-2/20 uppercase leading-[120%] md:top-[120px] top-2/20 uppercase leading-[120%]">
         meet the <br />
-        <span className="md:text-[78px] leading-[120%]">
+        <span className="lg:text-[78px] leading-[120%] md:text-[39px] text-xl leading-[120%]">
           bridge and
           <br /> groom
         </span>
       </p>
-      <p className=" md:text-[27px] text-xs  text-center absolute left-1/2 -translate-x-1/2 md:top-[570px] top-4/20 leading-[120%] w-full px-5 md:max-w-6xl">
+      <p className=" lg:text-[27px] text-xs  text-center absolute left-1/2 -translate-x-1/2 md:text-[14px] text-xs  text-center absolute left-0 -translate-x-0 lg:top-[570px] top-4/20 leading-[120%] w-full px-5 md:max-w-6xl md:top-[285px] top-4/20 leading-[60%] w-full px-3 md:max-w-3xl">
         We are both so delighted that you are able to join us in celebrating
         what we hope will be one of the happiest days of our lives. The
         affection shown to us by so many people since our roka has been
@@ -89,7 +89,7 @@ const ImageSection = ({ whatsappLink, images }: ImageSectionProps) => {
           />
         </div>
       </div>
-      <p className=" md:text-5xl text-xl  text-center absolute left-1/2 -translate-x-1/2 md:top-12/18 top-12/20">
+      <p className=" lg:text-5xl text-xl  text-center absolute left-1/2 -translate-x-1/2 md:text-2xl text-xl  text-center absolute left-1/2 -translate-x-1/2 lg:top-12/18 top-12/20 md:top-12/18 top-12/20">
         Please <br /> rsvp
         <br />
         <span className="md:text-2xl text-xs">
@@ -101,7 +101,7 @@ const ImageSection = ({ whatsappLink, images }: ImageSectionProps) => {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="absolute  left-1/2 -translate-x-1/2 md:top-13/18 mt-10 top-14/20"
+        className="absolute  left-1/2 -translate-x-1/2 lg:top-13/18 mt-10 top-14/20 md:top13/28 mt-5 top-14/20"
         animate={{
           y: [0, -15, 0],
           scale: [1, 1.1, 1],
@@ -121,18 +121,18 @@ const ImageSection = ({ whatsappLink, images }: ImageSectionProps) => {
       <motion.img
         src="/assets/img/event/dummyTree1.png"
         alt="fountain"
-        className="absolute -bottom-3 right-0 w-auto h-70 md:h-auto "
+        className="absolute -bottom-3 right-0 w-auto h-70 lg:h-auto md:h-110 w-auto"   
       />
       <motion.img
         src="/assets/img/event/dummyTree2.png"
         alt="fountain"
-        className="absolute -bottom-3 left-0 w-auto h-70 md:h-auto"
+        className="absolute -bottom-3 left-0 w-auto h-70 lg:h-auto md:h-100 w-100"
       />
 
       <motion.img
         src="/assets/img/event/horse1.png"
         alt="wedding-photo"
-        className="object-cover absolute md:-bottom-10 -bottom-5 left-1/2 -translate-x-1/2 md:h-132 h-40 z-100"
+        className="object-cover absolute lg:-bottom-10 -bottom-5 left-1/2 -translate-x-1/2 md:-bottom-5 left-1/2 -translate-x-1/2 lg:h-132 h-40 z-100 md:h-65 h-20 z-50"
       />
     </section>
   );
